@@ -1,4 +1,4 @@
-package com.example.splitpayap2
+package com.example.splitpayapp
 
 import androidx.compose.runtime.Composable
 
