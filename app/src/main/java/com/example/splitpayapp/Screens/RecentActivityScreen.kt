@@ -1,4 +1,4 @@
-package com.example.splitpayapp
+package com.example.splitpayapp.Screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MainScreen() {
+fun RecentActivityScreen() {
 
     Column(
         modifier = Modifier
@@ -60,8 +60,8 @@ fun MainScreen() {
         Box(
             modifier = Modifier.run {
                 fillMaxWidth()
-                        .height(1.dp)
-                        .background(Color(87, 71, 71, 255))
+                    .height(1.dp)
+                    .background(Color(87, 71, 71, 255))
             }
         )
         Row(
@@ -98,6 +98,6 @@ fun MainScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun MainScreenPreview() {
-    MainScreen()
+fun RecentActivityPreview() {
+    RecentActivityScreen()
 }
