@@ -1,5 +1,6 @@
 package com.example.splitpayapp.Screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,12 +29,6 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(screenName: String) {
-    val buttonName = when (screenName) {
-        "Friends" -> "Add a new friend"
-        "Groups" -> "Create group"
-        "Articles" -> "Create an article"
-        else -> {}
-    }
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -43,9 +38,23 @@ fun TopBar(screenName: String) {
             Text(text = "$screenName")
         },
         actions = {
-
-            TextButton(onClick = { /*TODO*/ }) {
-                Text("$buttonName")
+            when (screenName) {
+                "Friends" -> {
+                    TextButton(onClick = { /*TODO*/ }) {
+                        Text("Add a new friend")
+                    }
+                }
+                "Groups" -> {
+                    TextButton(onClick = { /*TODO*/ }) {
+                        Text("Create a group")
+                    }
+                }
+                "Articles" -> {
+                    TextButton(onClick = { /*TODO*/ }) {
+                        Text("Create an article")
+                    }
+                }
+                else -> {}
             }
         }
     )
@@ -56,7 +65,12 @@ fun IconsBottomBar(
     iconTypeFriends: ImageVector = Icons.Outlined.Person,
     iconTypeGroups: ImageVector = Icons.Outlined.Person,
     iconTypeRecentActivity: ImageVector = Icons.Outlined.MailOutline,
-    iconTypeArticle: ImageVector = Icons.Outlined.Build
+    iconTypeArticle: ImageVector = Icons.Outlined.Build,
+    navigationToFriendsScreen: () -> Unit,
+    navigationToGroupsScreen: () -> Unit,
+    navigationToAddExpenseScreen: () -> Unit,
+    navigationToRecentActivityScreen: () -> Unit,
+    navigationToArticleScreen: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -69,11 +83,10 @@ fun IconsBottomBar(
         val modifierIconButton = Modifier
             .fillMaxSize()
             .weight(1f)
-        TextButton(onClick = { /*TODO*/ }, modifier = modifierIconButton) {
+        TextButton(onClick = { navigationToFriendsScreen() }, modifier = modifierIconButton ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp),
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -81,11 +94,10 @@ fun IconsBottomBar(
                 Text(text = "Friends")
             }
         }
-        TextButton(onClick = { /*TODO*/ }, modifier = modifierIconButton) {
+        TextButton(onClick = { navigationToGroupsScreen() }, modifier = modifierIconButton) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp),
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -93,22 +105,20 @@ fun IconsBottomBar(
                 Text(text = "Groups")
             }
         }
-        TextButton(onClick = { /*TODO*/ }, modifier = modifierIconButton) {
+        TextButton(onClick = { navigationToAddExpenseScreen() }, modifier = modifierIconButton) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp),
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(Icons.Filled.AddCircle, "Add", modifierIconButton.fillMaxSize())
             }
         }
-        TextButton(onClick = { /*TODO*/ }, modifier = modifierIconButton) {
+        TextButton(onClick = { navigationToRecentActivityScreen() }, modifier = modifierIconButton) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp),
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -116,11 +126,10 @@ fun IconsBottomBar(
                 Text(text = "Recent")
             }
         }
-        TextButton(onClick = { /*TODO*/ }, modifier = modifierIconButton) {
+        TextButton(onClick = { navigationToArticleScreen() }, modifier = modifierIconButton) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp),
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

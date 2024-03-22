@@ -13,12 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ArticleScreen() {
+fun ArticleScreen(
+    navigationToFriendsScreen: () -> Unit,
+    navigationToGroupsScreen: () -> Unit,
+    navigationToAddExpenseScreen: () -> Unit,
+    navigationToRecentActivityScreen: () -> Unit,
+    navigationToArticleScreen: () -> Unit
+) {
     Scaffold(topBar = {
         TopBar(screenName = "Articles")
     }, bottomBar = {
         BottomAppBar {
-            IconsBottomBar(iconTypeGroups = Icons.Filled.Build)
+            IconsBottomBar(
+                iconTypeArticle = Icons.Filled.Build,
+                navigationToFriendsScreen = navigationToFriendsScreen,
+                navigationToGroupsScreen = navigationToGroupsScreen,
+                navigationToAddExpenseScreen = navigationToAddExpenseScreen,
+                navigationToArticleScreen = navigationToArticleScreen,
+                navigationToRecentActivityScreen = navigationToRecentActivityScreen
+            )
         }
     }) { innerPadding ->
         Column {
@@ -27,8 +40,8 @@ fun ArticleScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ArticleScreenPreview() {
-    ArticleScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ArticleScreenPreview() {
+//    ArticleScreen()
+//}

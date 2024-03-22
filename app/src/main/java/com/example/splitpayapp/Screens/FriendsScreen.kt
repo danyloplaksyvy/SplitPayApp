@@ -13,12 +13,25 @@ import androidx.compose.ui.tooling.preview.Preview
 
 
 @Composable
-fun FriendsScreen() {
+fun FriendsScreen(
+    navigationToFriendsScreen: () -> Unit,
+    navigationToGroupsScreen: () -> Unit,
+    navigationToAddExpenseScreen: () -> Unit,
+    navigationToRecentActivityScreen: () -> Unit,
+    navigationToArticleScreen: () -> Unit
+) {
     Scaffold(topBar = {
         TopBar(screenName = "Friends")
     }, bottomBar = {
         BottomAppBar {
-            IconsBottomBar(iconTypeFriends = Icons.Filled.Person)
+            IconsBottomBar(
+                iconTypeFriends = Icons.Filled.Person,
+                navigationToFriendsScreen = navigationToFriendsScreen,
+                navigationToGroupsScreen = navigationToGroupsScreen,
+                navigationToAddExpenseScreen = navigationToAddExpenseScreen,
+                navigationToArticleScreen = navigationToArticleScreen,
+                navigationToRecentActivityScreen = navigationToRecentActivityScreen
+            )
         }
     }) { innerPadding ->
         Column {
@@ -28,8 +41,8 @@ fun FriendsScreen() {
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun FriendsScreenPreview() {
-    FriendsScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun FriendsScreenPreview() {
+//    FriendsScreen()
+//}

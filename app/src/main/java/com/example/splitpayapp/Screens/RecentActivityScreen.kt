@@ -35,12 +35,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RecentActivityScreen() {
+fun RecentActivityScreen(
+    navigationToFriendsScreen: () -> Unit,
+    navigationToGroupsScreen: () -> Unit,
+    navigationToAddExpenseScreen: () -> Unit,
+    navigationToRecentActivityScreen: () -> Unit,
+    navigationToArticleScreen: () -> Unit
+) {
     Scaffold(topBar = {
         TopBar(screenName = "Recent Activity")
     }, bottomBar = {
         BottomAppBar {
-            IconsBottomBar(iconTypeGroups = Icons.Filled.Email)
+            IconsBottomBar(
+                iconTypeRecentActivity = Icons.Filled.Email,
+                navigationToFriendsScreen = navigationToFriendsScreen,
+                navigationToGroupsScreen = navigationToGroupsScreen,
+                navigationToAddExpenseScreen = navigationToAddExpenseScreen,
+                navigationToArticleScreen = navigationToArticleScreen,
+                navigationToRecentActivityScreen = navigationToRecentActivityScreen
+            )
         }
     }) { innerPadding ->
         Column {
@@ -49,8 +62,8 @@ fun RecentActivityScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RecentActivityPreview() {
-    RecentActivityScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun RecentActivityPreview() {
+//    RecentActivityScreen()
+//}

@@ -12,12 +12,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun GroupsScreen() {
+fun GroupsScreen(
+    navigationToFriendsScreen: () -> Unit,
+    navigationToGroupsScreen: () -> Unit,
+    navigationToAddExpenseScreen: () -> Unit,
+    navigationToRecentActivityScreen: () -> Unit,
+    navigationToArticleScreen: () -> Unit
+) {
     Scaffold(topBar = {
         TopBar(screenName = "Groups")
     }, bottomBar = {
         BottomAppBar {
-            IconsBottomBar(iconTypeGroups = Icons.Filled.Person)
+            IconsBottomBar(
+                iconTypeGroups = Icons.Filled.Person,
+                navigationToFriendsScreen = navigationToFriendsScreen,
+                navigationToGroupsScreen = navigationToGroupsScreen,
+                navigationToAddExpenseScreen = navigationToAddExpenseScreen,
+                navigationToArticleScreen = navigationToArticleScreen,
+                navigationToRecentActivityScreen = navigationToRecentActivityScreen
+            )
         }
     }) { innerPadding ->
         Column {
@@ -27,8 +40,8 @@ fun GroupsScreen() {
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GroupsScreenPreview() {
-    GroupsScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GroupsScreenPreview() {
+//    GroupsScreen()
+//}
