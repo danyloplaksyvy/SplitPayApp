@@ -38,7 +38,7 @@ fun GroupsScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "This is Friends Screen")
+            Text(text = "This is Groups Screen")
         }
     }
 }
