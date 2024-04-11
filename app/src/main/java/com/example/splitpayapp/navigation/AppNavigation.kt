@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -48,26 +49,13 @@ fun AppNavigation() {
     )
 
     val navController = rememberNavController()
+    // Remember user's actions
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     Scaffold(
-//        topBar = {
-//            TopAppBar(title = {
-//                Text(
-//                    text = screenTitles[currentDestination?.route] ?: "Screen Title"
-//                )
-//            }, actions = {
-//                TextButton(onClick = {  }) {
-//                    Text(text = "Add friend ")
-//                    Icon(imageVector = Icons.Default.PersonAdd, contentDescription = "Add a friend")
-//                }
-//            })
-//        },
         bottomBar = {
             NavigationBar {
-                // Remember user's actions
 
-                // Change color on Active Screen
                 listOfNavItems.forEach { navItem ->
                     val isSelected =
                         currentDestination?.hierarchy?.any { it.route == navItem.route } == true
