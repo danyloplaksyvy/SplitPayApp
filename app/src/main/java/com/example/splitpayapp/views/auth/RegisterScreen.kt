@@ -1,4 +1,4 @@
-package com.example.splitpayapp.views
+package com.example.splitpayapp.views.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,15 +21,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.splitpayapp.Screens
+import androidx.navigation.NavController
+import com.example.splitpayapp.graphs.AuthScreen
+import com.example.splitpayapp.graphs.Graph
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 @Composable
-fun RegisterScreen() {
-    val navController = rememberNavController()
+fun RegisterScreen(navController: NavController) {
     val nameFieldState = remember { mutableStateOf("") } // For name field in sign-up
     val emailFieldState = remember { mutableStateOf("") }
     val passwordFieldState = remember { mutableStateOf("") }
@@ -88,9 +87,11 @@ fun RegisterScreen() {
                         if (task.isSuccessful) {
                             //Sign-up success (navigate to the main app area)
 
-//                            navController.navigate(Screens.FriendsScreen.name) {
-//                                popUpTo(Screens.AuthScreen.name) { inclusive = true } // Clear registration from backstack
-//                            }
+                            navController.navigate(Graph.MAIN_NAV) {
+                                popUpTo(AuthScreen.Register.route) {
+                                    inclusive = true
+                                } // Clear auth from backstack
+                            }
                         } else {
                             errorMessage = task.exception?.message ?: "Sign-up failed"
                         }
@@ -104,8 +105,7 @@ fun RegisterScreen() {
         TextButton(
             onClick = {
                 /*Switch(navigate between screens)*/
-
-//                navController.navigate(Screens.AuthScreen.name)
+                      navController.navigate(AuthScreen.Login.route)
             },
             modifier = Modifier.padding(16.dp)
         ) { // Switch mode

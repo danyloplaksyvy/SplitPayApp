@@ -7,10 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.splitpayapp.navigation.AppNavigation
+import com.example.splitpayapp.graphs.MainNavigationGraph
+import com.example.splitpayapp.graphs.RootNavigationGraph
 import com.example.splitpayapp.ui.theme.SplitPayAppTheme
-import com.example.splitpayapp.views.AuthScreen
-import com.example.splitpayapp.views.RegisterScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,9 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    AuthScreen()
-//                    AppNavigation()
-                    RegisterScreen()
+                    RootNavigationGraph()
                 }
             }
         }
