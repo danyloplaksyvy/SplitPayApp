@@ -6,7 +6,7 @@ enum class Screens {
     RecentActivityScreen,
     ProfileScreen,
     AddExpenseScreen,
-    AuthScreen,
+    LoginScreen,
     RegisterScreen,
     ForgotScreen,
     SplashScreen

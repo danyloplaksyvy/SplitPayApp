@@ -14,26 +14,26 @@ import com.example.splitpayapp.views.auth.RegisterScreen
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation(
         route = Graph.AUTH,
-        startDestination = AuthScreen.Splash.route
+        startDestination = Screens.SplashScreen.name
     ) {
-        composable(route = AuthScreen.Splash.route) {
+        composable(route = Screens.SplashScreen.name) {
             SplashScreen(navController)
         }
-        composable(route = AuthScreen.Login.route) {
+        composable(route = Screens.LoginScreen.name) {
             LoginScreen(navController)
         }
-        composable(route = AuthScreen.Register.route) {
+        composable(route = Screens.RegisterScreen.name) {
             RegisterScreen(navController)
         }
-        composable(route = AuthScreen.Forgot.route) {
+        composable(route = Screens.ForgotScreen.name) {
             ForgotScreen(navController)
         }
     }
 }
 
-sealed class AuthScreen(val route: String) {
-    object Splash: AuthScreen(route = "SPLASH")
-    object Login: AuthScreen("LOGIN")
-    object Register: AuthScreen("REGISTER")
-    object Forgot: AuthScreen("FORGOT")
-}
+//sealed class AuthScreen(val route: String) {
+//    object Splash: AuthScreen(route = "SPLASH")
+//    object Login: AuthScreen("LOGIN")
+//    object Register: AuthScreen("REGISTER")
+//    object Forgot: AuthScreen("FORGOT")
+//}

@@ -2,7 +2,6 @@ package com.example.splitpayapp.graphs
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -12,16 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.splitpayapp.NavItem
 import com.example.splitpayapp.views.main.AddExpenseScreen
-import com.example.splitpayapp.Screens
 import com.example.splitpayapp.views.main.FriendsScreen
 import com.example.splitpayapp.views.main.GroupsScreen
 import com.example.splitpayapp.views.main.ProfileScreen
@@ -29,7 +26,7 @@ import com.example.splitpayapp.views.main.RecentActivityScreen
 
 
 @Composable
-fun MainNavigationGraph(navController: NavHostController) {
+fun MainNavigationGraph() {
 
     val screens = listOf(
         NavItem.Friends,
@@ -80,22 +77,23 @@ fun MainNavigationGraph(navController: NavHostController) {
         }) { paddingValues ->
         NavHost(
             navController = navController,
-            startDestination = Screens.FriendsScreen.name,
+            startDestination = NavItem.Friends.route,
+            route = Graph.MAIN_NAV,
             modifier = Modifier.padding(paddingValues)
         ) {
-            composable(route = Screens.FriendsScreen.name) {
+            composable(route = NavItem.Friends.route) {
                 FriendsScreen()
             }
-            composable(route = Screens.GroupsScreen.name) {
+            composable(route = NavItem.Groups.route) {
                 GroupsScreen()
             }
-            composable(route = Screens.AddExpenseScreen.name) {
+            composable(route = NavItem.AddExpense.route) {
                 AddExpenseScreen()
             }
-            composable(route = Screens.RecentActivityScreen.name) {
+            composable(route = NavItem.Recent.route) {
                 RecentActivityScreen()
             }
-            composable(route = Screens.ProfileScreen.name) {
+            composable(route = NavItem.Profile.route) {
                 ProfileScreen()
             }
         }

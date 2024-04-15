@@ -13,15 +13,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.splitpayapp.R
-import com.example.splitpayapp.graphs.AuthScreen
+import com.example.splitpayapp.Screens
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         delay(2000)
-        navController.navigate(AuthScreen.Login.route) {
-            popUpTo(AuthScreen.Splash.route) { inclusive = true }
+        navController.navigate(Screens.LoginScreen.name) {
+            popUpTo(Screens.SplashScreen.name) { inclusive = true }
         }
     }
 
