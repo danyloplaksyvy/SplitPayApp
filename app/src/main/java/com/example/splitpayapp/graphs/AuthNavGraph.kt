@@ -30,10 +30,3 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
         }
     }
 }
-
-//sealed class AuthScreen(val route: String) {
-//    object Splash: AuthScreen(route = "SPLASH")
-//    object Login: AuthScreen("LOGIN")
-//    object Register: AuthScreen("REGISTER")
-//    object Forgot: AuthScreen("FORGOT")
-//}

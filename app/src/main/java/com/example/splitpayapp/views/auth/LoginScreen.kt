@@ -1,5 +1,6 @@
 package com.example.splitpayapp.views.auth
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,11 +39,11 @@ import com.google.firebase.auth.auth
 
 @Composable
 fun LoginScreen(navController: NavController) {
+    val context = LocalContext.current
     val nameFieldState = remember { mutableStateOf("") } // For name field in sign-up
     val emailFieldState = remember { mutableStateOf("") }
     val passwordFieldState = remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) } // For loading state
-    var errorMessage by remember { mutableStateOf("") }  // For error display
     var passwordVisibility by remember { mutableStateOf(false) }
 
     Column(
@@ -84,12 +86,15 @@ fun LoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                isLoading = true // Show loading State
-                errorMessage = "" // Clear previous error if it was
+                val email = emailFieldState.value.trim()
+                val password = passwordFieldState.value.trim()
 
-                val email = emailFieldState.value
-                val password = passwordFieldState.value
-                val name = nameFieldState.value
+                if (email.isBlank() || password.isBlank()) {
+                    Toast.makeText(context, "Please fill in both email and password", Toast.LENGTH_LONG).show()
+                    return@Button
+                }
+
+                isLoading = true // Show loading State
 
                 Firebase.auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
@@ -101,7 +106,8 @@ fun LoginScreen(navController: NavController) {
                                 } // Clear auth from backstack
                             }
                         } else {
-                            errorMessage = task.exception?.message ?: "Sign-up failed"
+                            val errorMessage = task.exception?.message ?: "Sign-in failed"
+                            Toast.makeText(context,errorMessage, Toast.LENGTH_LONG).show()
                         }
                     }
             },
@@ -130,13 +136,6 @@ fun LoginScreen(navController: NavController) {
             Text("Forgot Password?")
         }
 
-        if (errorMessage.isNotEmpty()) {
-            Text(
-                text = errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                textAlign = TextAlign.Center
-            )
-        }
         // Add Google Sign-In (We'll cover this later)
     }
 }
