@@ -15,12 +15,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,13 +54,10 @@ fun ForgotScreen(navController: NavController) {
     var emailFieldState by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
 
-    val colors = listOf(Color(173, 195, 221, 75), Color(9, 66, 133, 75)) //  Your gradient colors
-    val brush = Brush.linearGradient(colors)
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(brush),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -75,11 +77,13 @@ fun ForgotScreen(navController: NavController) {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(32.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(32.dp)
+        ) {
 
-            TextField(
+            OutlinedTextField(
                 value = emailFieldState,
                 onValueChange = { emailFieldState = it },
                 label = { Text("Email") },
@@ -87,50 +91,56 @@ fun ForgotScreen(navController: NavController) {
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Done
                 ),
+                trailingIcon = {
+                    Icon(
+                        Icons.Outlined.Email,
+                        contentDescription = null,
+                        tint = Color(63, 99, 203, 200)
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    val email = emailFieldState.trim()
+
+                    if (email.isBlank()) {
+                        Toast.makeText(context, "Please fill in email", Toast.LENGTH_LONG)
+                            .show()
+                        return@Button
+                    }
+                    isLoading = true
+                    Firebase.auth.sendPasswordResetEmail(emailFieldState)
+                        .addOnCompleteListener { task ->
+                            isLoading = false
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "Check your email!", Toast.LENGTH_LONG)
+                                    .show()
+                                navController.popBackStack()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    task.exception?.message ?: "An error occurred",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                }) {
+                Text("Submit")
+            }
+            Button(
+                onClick = { navController.popBackStack() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            )
-            {
-
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    onClick = {
-                        val email = emailFieldState.trim()
-
-                        if (email.isBlank()) {
-                            Toast.makeText(context, "Please fill in email", Toast.LENGTH_LONG)
-                                .show()
-                            return@Button
-                        }
-                        isLoading = true
-                        Firebase.auth.sendPasswordResetEmail(emailFieldState)
-                            .addOnCompleteListener { task ->
-                                isLoading = false
-                                if (task.isSuccessful) {
-                                    Toast.makeText(context, "Check your email!", Toast.LENGTH_LONG)
-                                        .show()
-                                    navController.popBackStack()
-                                } else {
-                                    Toast.makeText(
-                                        context,
-                                        task.exception?.message ?: "An error occurred",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
-                    }) {
-                    Text("Submit")
-                }
+                    .padding(64.dp)
+            ) {
+                Text(text = "Back")
             }
         }
     }

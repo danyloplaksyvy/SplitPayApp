@@ -7,15 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.splitpayapp.graphs.MainNavigationGraph
 import com.example.splitpayapp.graphs.RootNavigationGraph
+import com.example.splitpayapp.ui.theme.MyTheme
 import com.example.splitpayapp.ui.theme.SplitPayAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SplitPayAppTheme {
+            MyTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),

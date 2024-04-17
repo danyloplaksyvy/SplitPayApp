@@ -13,9 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -64,14 +69,19 @@ fun LoginScreen(
     var isLoading by remember { mutableStateOf(false) } // For loading state
     var passwordVisibility by remember { mutableStateOf(false) }
 
-    val colors = listOf(Color(173, 195, 221, 75), Color(9, 66, 133, 75)) //  Your gradient colors
-    val brush = Brush.linearGradient(colors)
+//    val colors = listOf(
+//        Color(217, 221, 233, 255),
+//        Color(123, 146, 214, 255),
+//        Color(113, 131, 187, 255)
+//
+//    ) //  Your gradient colors
+//    val brush = Brush.linearGradient(colors)
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
 //            .padding(16.dp)
-            .background(brush),
+//            .background(brush),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -86,112 +96,128 @@ fun LoginScreen(
             text = "Sign In",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(16.dp)
-        )
 
-        OutlinedTextField(
-            value = emailFieldState.value,
-            onValueChange = { emailFieldState.value = it },
-            label = { Text("Email") },
-            modifier = Modifier.padding(8.dp)
         )
-
-        OutlinedTextField(
-            value = passwordFieldState.value,
-            onValueChange = { passwordFieldState.value = it },
-            label = { Text("Password") },
-            modifier = Modifier.padding(8.dp),
-            trailingIcon = {
-                IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                    Icon(
-                        imageVector = if (passwordVisibility) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                        contentDescription = null
-                    )
-                }
-            },
-            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-        )
-        // Remember me and Forgot Password Row
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(end = 32.dp, start = 32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            TextButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.padding(start = 32.dp)
+            OutlinedTextField(
+                value = emailFieldState.value,
+                onValueChange = { emailFieldState.value = it },
+                label = { Text("Email") },
+                trailingIcon = {
+                    Icon(
+                        Icons.Outlined.Email,
+                        contentDescription = null,
+                        tint = Color(63, 99, 203, 200)
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            )
+
+            OutlinedTextField(
+                value = passwordFieldState.value,
+                onValueChange = { passwordFieldState.value = it },
+                label = { Text("Password") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                trailingIcon = {
+                    IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                        Icon(
+                            imageVector = if (passwordVisibility) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                            contentDescription = null,
+                            tint = Color(63, 99, 203, 200)
+                        )
+                    }
+                },
+                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            )
+            // Remember me and Forgot Password Row
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Remember me")
+
+                TextButton(
+                    onClick = { /*TODO*/ },
+                ) {
+                    Text(text = "Remember me")
+                }
+                TextButton(
+                    onClick = {
+                        /*Switch*/
+                        navController.navigate(Screens.ForgotScreen.name)
+                    }
+                ) {
+                    Text("Forgot Password?")
+                }
+
             }
+            // Sign In button
+            Button(
+                onClick = {
+                    val email = emailFieldState.value.trim()
+                    val password = passwordFieldState.value.trim()
+
+                    if (email.isBlank() || password.isBlank()) {
+                        Toast.makeText(
+                            context,
+                            "Please fill in both email and password",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@Button
+                    }
+
+                    isLoading = true // Show loading State
+
+                    Firebase.auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
+                            isLoading = false
+                            if (task.isSuccessful) {
+                                navController.navigate(Graph.MAIN_NAV) {
+                                    popUpTo(Screens.LoginScreen.name) {
+                                        inclusive = true
+                                    } // Clear auth from backstack
+                                }
+                            } else {
+                                val errorMessage = task.exception?.message ?: "Sign-in failed"
+                                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+                            }
+                        }
+                },
+                modifier = Modifier
+                    .fillMaxWidth().padding(8.dp)
+            ) {
+                Text("Continue")
+            }
+
+            TextButton(onClick = { }, modifier = Modifier.padding(16.dp)) {
+                Text(text = "Sign In with ")
+                Image(
+                    painter = painterResource(id = R.drawable.googlelogo),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
             TextButton(
                 onClick = {
                     /*Switch*/
-                    navController.navigate(Screens.ForgotScreen.name)
-                },
-                modifier = Modifier.padding(end = 32.dp)
-            ) {
-                Text("Forgot Password?")
-            }
+                    navController.navigate(Screens.RegisterScreen.name)
 
-        }
-        // Sign In button
-        Button(
-            onClick = {
-                val email = emailFieldState.value.trim()
-                val password = passwordFieldState.value.trim()
-
-                if (email.isBlank() || password.isBlank()) {
-                    Toast.makeText(
-                        context,
-                        "Please fill in both email and password",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return@Button
                 }
-
-                isLoading = true // Show loading State
-
-                Firebase.auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        isLoading = false
-                        if (task.isSuccessful) {
-                            navController.navigate(Graph.MAIN_NAV) {
-                                popUpTo(Screens.LoginScreen.name) {
-                                    inclusive = true
-                                } // Clear auth from backstack
-                            }
-                        } else {
-                            val errorMessage = task.exception?.message ?: "Sign-in failed"
-                            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-                        }
-                    }
-            },
-            modifier = Modifier.padding(start = 32.dp, end = 32.dp).fillMaxWidth()
-        ) {
-            Text("Continue")
-        }
-
-        TextButton(onClick = { }, modifier = Modifier.padding(16.dp)) {
-            Text(text = "Sign In with ")
-            Image(
-                painter = painterResource(id = R.drawable.googlelogo),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-        }
-
-        TextButton(
-            onClick = {
-                /*Switch*/
-                navController.navigate(Screens.RegisterScreen.name)
-
-            },
-            modifier = Modifier.padding(8.dp)
-        ) { // Switch mode
-            Text("Create an account")
+            ) { // Switch mode
+                Text("Create an account")
+            }
         }
 
 
