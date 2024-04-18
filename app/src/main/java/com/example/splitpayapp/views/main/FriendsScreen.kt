@@ -31,7 +31,6 @@ fun FriendsScreen() {
         }, actions = {
             TextButton(onClick = { }) {
                 Text(text = "Add friend ")
-//                Icon(imageVector = Icons.Default.PersonAdd, contentDescription = "Add a friend")
             }
         })
     }) { innerPadding ->

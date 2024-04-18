@@ -9,6 +9,5 @@ enum class Screens {
     LoginScreen,
     RegisterScreen,
     ForgotScreen,
-    SplashScreen,
-    SignInWithGoogleScreen
+    SplashScreen
 }

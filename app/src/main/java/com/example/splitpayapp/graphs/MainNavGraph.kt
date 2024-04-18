@@ -1,5 +1,6 @@
 package com.example.splitpayapp.graphs
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -9,24 +10,35 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.splitpayapp.NavItem
+import com.example.splitpayapp.Screens
+import com.example.splitpayapp.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.views.main.AddExpenseScreen
 import com.example.splitpayapp.views.main.FriendsScreen
 import com.example.splitpayapp.views.main.GroupsScreen
 import com.example.splitpayapp.views.main.ProfileScreen
 import com.example.splitpayapp.views.main.RecentActivityScreen
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun MainNavigationGraph() {
+fun MainNavigationGraph(googleAuthUiClient: GoogleAuthUiClient) {
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val screens = listOf(
         NavItem.Friends,
@@ -44,7 +56,7 @@ fun MainNavigationGraph() {
         bottomBar = {
             NavigationBar {
 
-                screens.forEach {screen ->
+                screens.forEach { screen ->
                     val isSelected =
                         currentDestination?.hierarchy?.any { it.route == screen.route } == true
                     NavigationBarItem(
@@ -94,7 +106,17 @@ fun MainNavigationGraph() {
                 RecentActivityScreen()
             }
             composable(route = NavItem.Profile.route) {
-                ProfileScreen()
+                ProfileScreen(googleAuthUiClient, onSignOut = {
+                    scope.launch {
+                        googleAuthUiClient.signOut()
+                        Toast.makeText(
+                            context,
+                            "Signed out",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        navController.navigate(Graph.AUTH)
+                    }
+                })
             }
         }
     }

@@ -36,7 +36,7 @@ sealed class NavItem(
         text = "",
         icon = Icons.Outlined.MonetizationOn,
         route = Screens.AddExpenseScreen.name,
-        color = Color(101, 98, 179, 255),
+        color = Color(63, 99, 203),
         size = 48.dp
     )
 

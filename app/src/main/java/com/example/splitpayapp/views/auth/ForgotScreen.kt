@@ -116,6 +116,7 @@ fun ForgotScreen(navController: NavController) {
                         return@Button
                     }
                     isLoading = true
+
                     Firebase.auth.sendPasswordResetEmail(emailFieldState)
                         .addOnCompleteListener { task ->
                             isLoading = false

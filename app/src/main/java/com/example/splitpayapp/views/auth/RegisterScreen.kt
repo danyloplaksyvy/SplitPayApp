@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
@@ -50,8 +51,11 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 @Composable
-fun RegisterScreen(navController: NavController) {
+fun RegisterScreen(
+    navController: NavController,
+) {
     val context = LocalContext.current
+    val nameFieldState = remember { mutableStateOf("") }
     val emailFieldState = remember { mutableStateOf("") }
     val passwordFieldState = remember { mutableStateOf("") }
     val confirmPasswordFieldState = remember { mutableStateOf("") }
@@ -83,6 +87,22 @@ fun RegisterScreen(navController: NavController) {
                 .padding(end = 32.dp, start = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Name
+            OutlinedTextField(
+                value = nameFieldState.value,
+                onValueChange = { nameFieldState.value = it },
+                label = { Text("Full Name") },
+                trailingIcon = {
+                    Icon(
+                        Icons.Outlined.Person,
+                        contentDescription = null,
+                        tint = Color(63, 99, 203, 200)
+                    )
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            )
             // Email
             OutlinedTextField(
                 value = emailFieldState.value,
@@ -95,7 +115,9 @@ fun RegisterScreen(navController: NavController) {
                         tint = Color(63, 99, 203, 200)
                     )
                 },
-                modifier = Modifier.padding(8.dp).fillMaxWidth()
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
             )
 
             // Password
@@ -160,13 +182,12 @@ fun RegisterScreen(navController: NavController) {
                         return@Button
                     }
                     isLoading = true // Show loading State
-
+                    // Adding User to Auth
                     Firebase.auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener { task ->
                             isLoading = false
                             if (task.isSuccessful) {
                                 //Sign-up success (navigate to the main app area)
-
                                 navController.navigate(Graph.MAIN_NAV) {
                                     popUpTo(Screens.RegisterScreen.name) {
                                         inclusive = true
@@ -179,7 +200,8 @@ fun RegisterScreen(navController: NavController) {
                         }
                 },
                 modifier = Modifier
-                    .fillMaxWidth().padding(8.dp)
+                    .fillMaxWidth()
+                    .padding(8.dp)
             ) {
                 Text("Continue")
             }
@@ -194,7 +216,6 @@ fun RegisterScreen(navController: NavController) {
             ) { // Switch mode
                 Text("Already have an account? Login")
             }
-            // Add Google Sign-In (We'll cover this later)
         }
     }
 }

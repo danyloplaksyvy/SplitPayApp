@@ -7,11 +7,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.example.splitpayapp.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.graphs.RootNavigationGraph
 import com.example.splitpayapp.ui.theme.MyTheme
-import com.example.splitpayapp.ui.theme.SplitPayAppTheme
+import com.google.android.gms.auth.api.identity.Identity
 
 class MainActivity : ComponentActivity() {
+
+    private val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -21,8 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RootNavigationGraph()
-
+                    RootNavigationGraph(googleAuthUiClient)
                 }
             }
         }
