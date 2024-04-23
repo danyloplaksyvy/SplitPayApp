@@ -35,7 +35,11 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun MainNavigationGraph(googleAuthUiClient: GoogleAuthUiClient) {
+fun MainNavigationGraph(
+    googleAuthUiClient: GoogleAuthUiClient,
+    rootNavController: NavHostController,
+    navController: NavHostController = rememberNavController()
+) {
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -48,7 +52,7 @@ fun MainNavigationGraph(googleAuthUiClient: GoogleAuthUiClient) {
         NavItem.Profile
     )
 
-    val navController = rememberNavController()
+//    val navController = rememberNavController()
     // Remember user's actions
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -114,7 +118,7 @@ fun MainNavigationGraph(googleAuthUiClient: GoogleAuthUiClient) {
                             "Signed out",
                             Toast.LENGTH_LONG
                         ).show()
-                        navController.navigate(Graph.AUTH)
+                        rootNavController.navigate(Graph.AUTH)
                     }
                 })
             }

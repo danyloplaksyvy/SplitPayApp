@@ -63,7 +63,7 @@ fun ForgotScreen(navController: NavController) {
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.askingquestion),
+            painter = painterResource(id = R.drawable.forgotpassword),
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
@@ -83,6 +83,7 @@ fun ForgotScreen(navController: NavController) {
                 .padding(32.dp)
         ) {
 
+            // Email
             OutlinedTextField(
                 value = emailFieldState,
                 onValueChange = { emailFieldState = it },

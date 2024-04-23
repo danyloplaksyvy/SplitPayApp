@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -95,7 +96,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.chillnormblueblack),
+            painter = painterResource(id = R.drawable.signin),
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
@@ -114,10 +115,15 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            // Email
             OutlinedTextField(
                 value = emailFieldState.value,
                 onValueChange = { emailFieldState.value = it },
                 label = { Text("Email") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
                 trailingIcon = {
                     Icon(
                         Icons.Outlined.Email,
@@ -130,6 +136,7 @@ fun LoginScreen(
                     .padding(8.dp)
             )
 
+            // Password
             OutlinedTextField(
                 value = passwordFieldState.value,
                 onValueChange = { passwordFieldState.value = it },
@@ -147,7 +154,7 @@ fun LoginScreen(
                     }
                 },
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
             )
                 TextButton(
                     onClick = {

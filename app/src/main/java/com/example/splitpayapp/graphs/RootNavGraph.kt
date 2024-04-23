@@ -9,19 +9,19 @@ import com.example.splitpayapp.googlesignin.GoogleAuthUiClient
 
 @Composable
 fun RootNavigationGraph(googleAuthUiClient: GoogleAuthUiClient) {
-    val navController = rememberNavController()
+    val rootNavController = rememberNavController()
 
     NavHost(
-        navController = navController,
+        navController = rootNavController,
         startDestination = Graph.AUTH,
         route = Graph.ROOT
     ) {
         composable(Graph.AUTH) {
-            authNavGraph(navController = navController, googleAuthUiClient)
+            authNavGraph(navController = rootNavController, googleAuthUiClient)
         }
-        authNavGraph(navController = navController, googleAuthUiClient)
+        authNavGraph(navController = rootNavController, googleAuthUiClient)
             composable(Graph.MAIN_NAV) {
-                MainNavigationGraph(googleAuthUiClient)
+                MainNavigationGraph(googleAuthUiClient, rootNavController = rootNavController)
             }
     }
 }

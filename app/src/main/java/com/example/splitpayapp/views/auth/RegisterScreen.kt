@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -69,7 +70,7 @@ fun RegisterScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.businessdealblack),
+            painter = painterResource(id = R.drawable.signup),
             contentDescription = null,
             modifier = Modifier
                 .padding(8.dp)
@@ -92,6 +93,10 @@ fun RegisterScreen(
                 value = nameFieldState.value,
                 onValueChange = { nameFieldState.value = it },
                 label = { Text("Full Name") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
                 trailingIcon = {
                     Icon(
                         Icons.Outlined.Person,
@@ -108,6 +113,10 @@ fun RegisterScreen(
                 value = emailFieldState.value,
                 onValueChange = { emailFieldState.value = it },
                 label = { Text("Email") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next
+                ),
                 trailingIcon = {
                     Icon(
                         Icons.Outlined.Email,
@@ -138,7 +147,7 @@ fun RegisterScreen(
                     }
                 },
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
             )
 
             // Confirm Password
@@ -159,7 +168,7 @@ fun RegisterScreen(
                     }
                 },
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
             )
 
             Button(
