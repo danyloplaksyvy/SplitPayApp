@@ -1,19 +1,31 @@
 package com.example.splitpayapp.graphs
 
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MonetizationOn
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -31,6 +43,7 @@ import com.example.splitpayapp.views.main.FriendsScreen
 import com.example.splitpayapp.views.main.GroupsScreen
 import com.example.splitpayapp.views.main.ProfileScreen
 import com.example.splitpayapp.views.main.RecentActivityScreen
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 
@@ -52,7 +65,6 @@ fun MainNavigationGraph(
         NavItem.Profile
     )
 
-//    val navController = rememberNavController()
     // Remember user's actions
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -64,6 +76,7 @@ fun MainNavigationGraph(
                     val isSelected =
                         currentDestination?.hierarchy?.any { it.route == screen.route } == true
                     NavigationBarItem(
+                        modifier = Modifier.border(1.dp, Color(63, 99, 203,25), RoundedCornerShape(15.dp)),
                         selected = isSelected,
                         onClick = {
                             navController.navigate(screen.route) {
@@ -87,10 +100,15 @@ fun MainNavigationGraph(
                                 text = screen.text,
                                 color = if (isSelected) Color(63, 99, 203) else screen.color
                             )
-                        })
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = Color(255, 255, 255, 255)
+                        )
+                    )
                 }
             }
-        }) { paddingValues ->
+        }
+    ) { paddingValues ->
         NavHost(
             navController = navController,
             startDestination = NavItem.Friends.route,
@@ -112,13 +130,18 @@ fun MainNavigationGraph(
             composable(route = NavItem.Profile.route) {
                 ProfileScreen(googleAuthUiClient, onSignOut = {
                     scope.launch {
-                        googleAuthUiClient.signOut()
-                        Toast.makeText(
-                            context,
-                            "Signed out",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        rootNavController.navigate(Graph.AUTH)
+                        try {
+                            googleAuthUiClient.signOut()
+                            Toast.makeText(
+                                context,
+                                "Signed out",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            rootNavController.navigate(Graph.AUTH)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            if (e is CancellationException) throw e
+                        }
                     }
                 })
             }

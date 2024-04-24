@@ -1,11 +1,14 @@
 package com.example.splitpayapp
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.sharp.Add
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
@@ -16,13 +19,14 @@ sealed class NavItem(
     val icon: ImageVector,
     val route: String,
     val color: Color = Color.Unspecified,
-    val size: Dp = 24.dp
+    val size: Dp = 24.dp,
+    val backgroundColor: Color = Color.Unspecified
 ) {
     object Friends : NavItem(
         text = "Friends",
         icon = Icons.Outlined.Group,
         route = Screens.FriendsScreen.name,
-        color = Color(110, 103, 117, 255)
+        color = Color(110, 103, 117, 255),
     )
 
     object Groups : NavItem(
@@ -33,11 +37,12 @@ sealed class NavItem(
     )
 
     object AddExpense : NavItem(
-        text = "",
-        icon = Icons.Outlined.MonetizationOn,
+        text = "Expense",
+        icon = Icons.Sharp.Add,
         route = Screens.AddExpenseScreen.name,
         color = Color(63, 99, 203),
-        size = 48.dp
+        backgroundColor = Color(242, 244, 252, 255)
+//        size = 32.dp
     )
 
     object Recent : NavItem(

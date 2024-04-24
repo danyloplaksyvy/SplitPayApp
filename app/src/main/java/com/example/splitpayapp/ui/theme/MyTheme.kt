@@ -1,6 +1,10 @@
 package com.example.splitpayapp.ui.theme
 
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.lightColors
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -9,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun MyTheme(content: @Composable () -> Unit) {
     val colors = lightColorScheme(
-        primary = Color(63, 99, 203), // Your desired button color
+        primary = Color(63, 99, 203),
         onPrimary = Color(242, 244, 252),
         secondary = Color(180, 153, 228),
         onSecondary = Color(242, 244, 252),
