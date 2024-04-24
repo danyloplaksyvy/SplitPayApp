@@ -20,7 +20,7 @@ sealed class NavItem(
     val route: String,
     val color: Color = Color.Unspecified,
     val size: Dp = 24.dp,
-    val backgroundColor: Color = Color.Unspecified
+    val borderSize: Dp = 0.dp
 ) {
     object Friends : NavItem(
         text = "Friends",
@@ -41,7 +41,7 @@ sealed class NavItem(
         icon = Icons.Sharp.Add,
         route = Screens.AddExpenseScreen.name,
         color = Color(63, 99, 203),
-        backgroundColor = Color(242, 244, 252, 255)
+        borderSize = 2.dp
 //        size = 32.dp
     )
 

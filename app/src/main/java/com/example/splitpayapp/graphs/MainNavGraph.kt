@@ -3,6 +3,7 @@ package com.example.splitpayapp.graphs
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -22,7 +23,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -70,13 +74,26 @@ fun MainNavigationGraph(
     val currentDestination = navBackStackEntry?.destination
     Scaffold(
         bottomBar = {
-            NavigationBar {
+            NavigationBar(modifier = Modifier.shadow(15.dp)) {
 
                 screens.forEach { screen ->
                     val isSelected =
                         currentDestination?.hierarchy?.any { it.route == screen.route } == true
                     NavigationBarItem(
-                        modifier = Modifier.border(1.dp, Color(63, 99, 203,25), RoundedCornerShape(15.dp)),
+                        modifier = Modifier
+                            .border(
+                                screen.borderSize,
+                                Color(63, 99, 203, 50),
+                                RoundedCornerShape(25.dp)
+                            )
+                            .clip(RoundedCornerShape(25.dp))
+                            .background(
+                                if (isSelected) Color(
+                                    255,
+                                    255,
+                                    255
+                                ) else Color.Unspecified
+                            ),
                         selected = isSelected,
                         onClick = {
                             navController.navigate(screen.route) {
