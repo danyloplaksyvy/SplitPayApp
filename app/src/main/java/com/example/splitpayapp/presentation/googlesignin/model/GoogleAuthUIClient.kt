@@ -1,9 +1,11 @@
-package com.example.splitpayapp.googlesignin
+package com.example.splitpayapp.presentation.googlesignin.model
 
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import com.example.splitpayapp.R
+import com.example.splitpayapp.presentation.googlesignin.SignInResult
+import com.example.splitpayapp.presentation.googlesignin.UserData
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.GoogleAuthProvider

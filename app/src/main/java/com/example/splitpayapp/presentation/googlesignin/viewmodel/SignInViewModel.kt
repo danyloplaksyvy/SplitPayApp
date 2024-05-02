@@ -1,17 +1,11 @@
-package com.example.splitpayapp.googlesignin
+package com.example.splitpayapp.presentation.googlesignin.viewmodel
 
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
+import com.example.splitpayapp.presentation.googlesignin.SignInResult
+import com.example.splitpayapp.presentation.googlesignin.SignInState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class SignInViewModel: ViewModel() {
 

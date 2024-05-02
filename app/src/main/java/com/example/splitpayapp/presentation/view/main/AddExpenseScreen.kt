@@ -1,4 +1,4 @@
-package com.example.splitpayapp.views.main
+package com.example.splitpayapp.presentation.view.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

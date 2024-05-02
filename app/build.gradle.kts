@@ -1,7 +1,11 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+
     id("com.google.gms.google-services")
+
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -51,30 +55,36 @@ android {
 }
 
 dependencies {
-
     //Navigation Compose
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.navigation.compose)
+
     // Material Icons
-    implementation("androidx.compose.material:material-icons-core:1.3.1")
-    implementation("androidx.compose.material:material-icons-extended:1.3.1")
+    implementation("androidx.compose.material:material-icons-core:1.6.6")
+    implementation("androidx.compose.material:material-icons-extended:1.6.6")
     implementation("androidx.compose.material:material:1.6.6")
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
-
     implementation ("com.google.android.gms:play-services-auth:20.4.1")
     implementation ("com.google.firebase:firebase-auth-ktx")
+
     // ViewModel
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
+//    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
 
     // Download Images
     implementation ("io.coil-kt:coil-compose:2.2.2")
 
-    //Blur
-    implementation("com.google.accompanist:accompanist-drawablepainter:0.28.0")
+    // Splash Screen
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    //Datastore
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    kapt("com.google.dagger:hilt-compiler:2.48.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

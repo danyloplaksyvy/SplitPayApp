@@ -1,18 +1,11 @@
-package com.example.splitpayapp.graphs
+package com.example.splitpayapp.presentation.navigation.graphs
 
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.MonetizationOn
-import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -23,30 +16,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.splitpayapp.NavItem
-import com.example.splitpayapp.Screens
-import com.example.splitpayapp.googlesignin.GoogleAuthUiClient
-import com.example.splitpayapp.views.main.AddExpenseScreen
-import com.example.splitpayapp.views.main.FriendsScreen
-import com.example.splitpayapp.views.main.GroupsScreen
-import com.example.splitpayapp.views.main.ProfileScreen
-import com.example.splitpayapp.views.main.RecentActivityScreen
+import com.example.splitpayapp.presentation.navigation.navigationbaritems.NavItem
+import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
+import com.example.splitpayapp.presentation.view.main.AddExpenseScreen
+import com.example.splitpayapp.presentation.view.main.FriendsScreen
+import com.example.splitpayapp.presentation.view.main.GroupsScreen
+import com.example.splitpayapp.presentation.view.main.ProfileScreen
+import com.example.splitpayapp.presentation.view.main.RecentActivityScreen
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -58,7 +46,7 @@ fun MainNavigationGraph(
     navController: NavHostController = rememberNavController()
 ) {
 
-    val context = LocalContext.current
+//    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     val screens = listOf(
@@ -80,20 +68,6 @@ fun MainNavigationGraph(
                     val isSelected =
                         currentDestination?.hierarchy?.any { it.route == screen.route } == true
                     NavigationBarItem(
-                        modifier = Modifier
-                            .border(
-                                screen.borderSize,
-                                Color(63, 99, 203, 50),
-                                RoundedCornerShape(25.dp)
-                            )
-                            .clip(RoundedCornerShape(25.dp))
-                            .background(
-                                if (isSelected) Color(
-                                    255,
-                                    255,
-                                    255
-                                ) else Color.Unspecified
-                            ),
                         selected = isSelected,
                         onClick = {
                             navController.navigate(screen.route) {
@@ -149,11 +123,11 @@ fun MainNavigationGraph(
                     scope.launch {
                         try {
                             googleAuthUiClient.signOut()
-                            Toast.makeText(
-                                context,
-                                "Signed out",
-                                Toast.LENGTH_LONG
-                            ).show()
+//                            Toast.makeText(
+//                                context,
+//                                "Signed out",
+//                                Toast.LENGTH_LONG
+//                            ).show()
                             rootNavController.navigate(Graph.AUTH)
                         } catch (e: Exception) {
                             e.printStackTrace()

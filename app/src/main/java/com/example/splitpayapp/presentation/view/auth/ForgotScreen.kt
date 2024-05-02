@@ -1,32 +1,23 @@
-package com.example.splitpayapp.views.auth
+package com.example.splitpayapp.presentation.view.auth
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material3.Button
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -96,7 +86,7 @@ fun ForgotScreen(navController: NavController) {
                     Icon(
                         Icons.Outlined.Email,
                         contentDescription = null,
-                        tint = Color(63, 99, 203, 200)
+//                        tint = Color(63, 99, 203, 200)
                     )
                 },
                 modifier = Modifier
@@ -136,13 +126,14 @@ fun ForgotScreen(navController: NavController) {
                 }) {
                 Text("Submit")
             }
-            Button(
+            IconButton(
                 onClick = { navController.popBackStack() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(64.dp)
             ) {
-                Text(text = "Back")
+//                Text(text = "Back")
+
             }
         }
     }

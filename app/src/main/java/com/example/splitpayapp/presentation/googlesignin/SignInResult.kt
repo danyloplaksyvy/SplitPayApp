@@ -1,4 +1,4 @@
-package com.example.splitpayapp.googlesignin
+package com.example.splitpayapp.presentation.googlesignin
 
 data class SignInResult(
     val data: UserData?,

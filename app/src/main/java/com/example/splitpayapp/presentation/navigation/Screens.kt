@@ -1,4 +1,4 @@
-package com.example.splitpayapp
+package com.example.splitpayapp.presentation.navigation
 
 enum class Screens {
     FriendsScreen,
@@ -9,5 +9,5 @@ enum class Screens {
     LoginScreen,
     RegisterScreen,
     ForgotScreen,
-    SplashScreen
+    OnBoardingScreen
 }

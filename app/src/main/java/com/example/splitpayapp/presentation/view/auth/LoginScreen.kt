@@ -1,4 +1,4 @@
-package com.example.splitpayapp.views.auth
+package com.example.splitpayapp.presentation.view.auth
 
 import android.app.Activity.RESULT_OK
 import android.widget.Toast
@@ -8,7 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -45,9 +44,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.splitpayapp.R
-import com.example.splitpayapp.Screens
-import com.example.splitpayapp.googlesignin.GoogleAuthUiClient
-import com.example.splitpayapp.graphs.Graph
+import com.example.splitpayapp.presentation.navigation.Screens
+import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
+import com.example.splitpayapp.presentation.navigation.graphs.Graph
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
@@ -128,7 +127,7 @@ fun LoginScreen(
                     Icon(
                         Icons.Outlined.Email,
                         contentDescription = null,
-                        tint = Color(63, 99, 203, 200)
+//                        tint = Color(63, 99, 203, 200)
                     )
                 },
                 modifier = Modifier
@@ -143,13 +142,13 @@ fun LoginScreen(
                 label = { Text("Password") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 24.dp),
                 trailingIcon = {
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
                             imageVector = if (passwordVisibility) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
                             contentDescription = null,
-                            tint = Color(63, 99, 203, 200)
+//                            tint = Color(63, 99, 203, 200)
                         )
                     }
                 },
