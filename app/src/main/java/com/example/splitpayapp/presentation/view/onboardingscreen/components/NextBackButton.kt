@@ -41,7 +41,8 @@ fun NextBackButton(
             colors = ButtonDefaults.buttonColors(
                 containerColor = blueColor,
                 contentColor = Color.White
-            ), shape = RoundedCornerShape(4.dp)
+            ),
+            shape = RoundedCornerShape(4.dp)
         ) {
             Text(text = if (currentPage == 2) "Get Started" else "Next")
         }

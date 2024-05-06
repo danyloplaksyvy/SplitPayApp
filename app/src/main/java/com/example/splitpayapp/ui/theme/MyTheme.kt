@@ -31,7 +31,7 @@ fun MyTheme(content: @Composable () -> Unit) {
     )
     MaterialTheme(
         colorScheme = colors,
-        // ... other theme attributes
+        typography = Typography,
         content = content
     )
 }

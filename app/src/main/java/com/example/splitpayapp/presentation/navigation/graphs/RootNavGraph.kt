@@ -23,7 +23,7 @@ fun RootNavigationGraph(
         route = Graph.ROOT
     ) {
         composable(Screens.OnBoardingScreen.name) {
-            OnBoardingScreen(mainViewModel = mainViewModel)
+            OnBoardingScreen(mainViewModel = mainViewModel, rootNavController)
         }
         composable(Graph.AUTH) {
             authNavGraph(navController = rootNavController, googleAuthUiClient)
@@ -36,7 +36,6 @@ fun RootNavigationGraph(
 }
 
 object Graph {
-//    const val ONBOARDING = "onboarding_graph"
     const val ROOT = "root_graph"
     const val AUTH = "auth_graph"
     const val MAIN_NAV = "main_nav_graph"

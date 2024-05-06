@@ -1,6 +1,7 @@
 package com.example.splitpayapp.presentation.data.datastore
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 private val Context.dataStoreManager: DataStore<Preferences> by preferencesDataStore("settings")
 
 @Singleton
-class DataStoreManager @Inject constructor (@ApplicationContext val context: Context) {
+class DataStoreManager @Inject constructor(@ApplicationContext val context: Context) {
     private val dataStoreManager = context.dataStoreManager
 
     private object dataStoreKeys {
@@ -36,7 +37,7 @@ class DataStoreManager @Inject constructor (@ApplicationContext val context: Con
 
     suspend fun saveAppEntry() {
         dataStoreManager.edit { preferences ->
-            preferences[dataStoreKeys.APP_ENTRY_KEY] ?: false
+            preferences[dataStoreKeys.APP_ENTRY_KEY] = false
         }
     }
 }
