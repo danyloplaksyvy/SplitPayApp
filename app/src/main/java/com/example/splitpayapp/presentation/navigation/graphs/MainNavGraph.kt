@@ -1,11 +1,7 @@
 package com.example.splitpayapp.presentation.navigation.graphs
 
-import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -16,10 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -31,7 +25,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.splitpayapp.presentation.navigation.navigationbaritems.NavItem
 import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.view.main.AddExpenseScreen
-import com.example.splitpayapp.presentation.view.main.FriendsScreen
+import com.example.splitpayapp.presentation.view.main.friendsscreen.FriendsScreen
 import com.example.splitpayapp.presentation.view.main.GroupsScreen
 import com.example.splitpayapp.presentation.view.main.ProfileScreen
 import com.example.splitpayapp.presentation.view.main.RecentActivityScreen
@@ -107,7 +101,7 @@ fun MainNavigationGraph(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(route = NavItem.Friends.route) {
-                FriendsScreen()
+                FriendsScreen(navController = navController)
             }
             composable(route = NavItem.Groups.route) {
                 GroupsScreen()

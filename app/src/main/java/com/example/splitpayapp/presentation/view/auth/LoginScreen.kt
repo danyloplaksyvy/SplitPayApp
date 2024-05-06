@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -94,13 +95,13 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.signin),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(8.dp)
-                .size(256.dp)
-        )
+//        Image(
+//            painter = painterResource(id = R.drawable.signin),
+//            contentDescription = null,
+//            modifier = Modifier
+//                .padding(8.dp)
+//                .size(256.dp)
+//        )
         Text(
             text = "Sign In",
             fontSize = 24.sp,

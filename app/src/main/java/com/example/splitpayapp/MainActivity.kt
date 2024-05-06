@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.navigation.graphs.RootNavigationGraph
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.AddFriendScreen
 import com.example.splitpayapp.presentation.viewmodel.MainViewModel
 import com.example.splitpayapp.ui.theme.MyTheme
 import com.example.splitpayapp.ui.theme.SplitPayAppTheme
@@ -43,6 +44,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+//                    AddFriendScreen()
                     RootNavigationGraph(
                         googleAuthUiClient = googleAuthUiClient,
                         startDestination = mainViewModel.startDestination,

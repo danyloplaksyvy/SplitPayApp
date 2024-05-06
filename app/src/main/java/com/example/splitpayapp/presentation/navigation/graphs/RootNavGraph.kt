@@ -23,7 +23,7 @@ fun RootNavigationGraph(
         route = Graph.ROOT
     ) {
         composable(Screens.OnBoardingScreen.name) {
-            OnBoardingScreen(mainViewModel = mainViewModel, rootNavController)
+            OnBoardingScreen(mainViewModel = mainViewModel)
         }
         composable(Graph.AUTH) {
             authNavGraph(navController = rootNavController, googleAuthUiClient)

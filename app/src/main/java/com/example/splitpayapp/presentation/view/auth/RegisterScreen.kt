@@ -62,13 +62,6 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.signup),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(8.dp)
-                .size(256.dp)
-        )
         Text(
             text = "Sign Up",
             fontSize = 24.sp,

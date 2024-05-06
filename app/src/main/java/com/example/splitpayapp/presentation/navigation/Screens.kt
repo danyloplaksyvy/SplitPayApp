@@ -9,5 +9,6 @@ enum class Screens {
     LoginScreen,
     RegisterScreen,
     ForgotScreen,
-    OnBoardingScreen
+    OnBoardingScreen,
+    AddFriendScreen
 }

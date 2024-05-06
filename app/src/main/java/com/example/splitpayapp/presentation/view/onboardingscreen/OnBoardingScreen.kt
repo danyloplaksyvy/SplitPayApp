@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(mainViewModel: MainViewModel, navController: NavController) {
+fun OnBoardingScreen(mainViewModel: MainViewModel) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
