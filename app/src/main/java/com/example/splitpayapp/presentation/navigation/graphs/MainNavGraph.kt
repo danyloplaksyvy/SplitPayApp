@@ -101,7 +101,7 @@ fun MainNavigationGraph(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(route = NavItem.Friends.route) {
-                FriendsScreen(navController = navController)
+                FriendsScreen()
             }
             composable(route = NavItem.Groups.route) {
                 GroupsScreen()

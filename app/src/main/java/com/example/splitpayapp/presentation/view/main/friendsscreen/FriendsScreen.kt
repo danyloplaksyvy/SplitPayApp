@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,30 +24,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.splitpayapp.presentation.navigation.Screens
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.AddFriendScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FriendsScreen(navController: NavController) {
+fun FriendsScreen() {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    val showButton by remember {
-        derivedStateOf {
-            state.firstVisibleItemIndex > 0 || state.firstVisibleItemScrollOffset > 0
-        }
-    }
+
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = {
             Text(text = "Friends")
         }, actions = {
-            TextButton(onClick = {  }) {
+            TextButton(onClick = { }) {
                 Text(text = "Add friend")
             }
         })
@@ -58,23 +51,30 @@ fun FriendsScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            val items = (1..25).toList()
-            LazyColumn(state = state) {
-                itemsIndexed(items) { index, item ->
-                    Text("Item at index $index: $item", Modifier.padding(16.dp))
+            Box() {
+                val items = (1..25).toList()
+                LazyColumn(state = state) {
+                    itemsIndexed(items) { index, item ->
+                        Text("Item at index $index: $item", Modifier.padding(16.dp))
+                    }
                 }
+
+                val showButton by remember {
+                    derivedStateOf {
+                        state.firstVisibleItemIndex > 0 || state.firstVisibleItemScrollOffset > 0
+                    }
+                }
+                ScrollToTopButton(
+                    // Only show if the scroller is not at the bottom
+                    enabled = showButton,
+                    onClicked = {
+                        scope.launch {
+                            state.animateScrollToItem(0)
+                        }
+                    },
+                modifier = Modifier.align(Alignment.BottomCenter)
+                )
             }
-//            AnimatedVisibility(
-//                visible = showButton,
-//                enter = fadeIn(),
-//                exit = fadeOut(),
-//            ) {
-//                ScrollToTopButton(onClick = {
-//                    scope.launch {
-//                        state.animateScrollToItem(0)
-//                    }
-//                })
-//            }
         }
     }
 }
