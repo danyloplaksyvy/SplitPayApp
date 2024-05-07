@@ -22,9 +22,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.FriendItem
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +60,7 @@ fun FriendsScreen() {
                 val items = (1..25).toList()
                 LazyColumn(state = state) {
                     itemsIndexed(items) { index, item ->
-                        Text("Item at index $index: $item", Modifier.padding(16.dp))
+//                            FriendItem(friend = )
                     }
                 }
 
@@ -75,9 +77,15 @@ fun FriendsScreen() {
                             state.animateScrollToItem(0)
                         }
                     },
-                modifier = Modifier.align(Alignment.BottomCenter)
+                    modifier = Modifier.align(Alignment.BottomCenter)
                 )
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FriendsScreenPreview(modifier: Modifier = Modifier) {
+    FriendsScreen()
 }

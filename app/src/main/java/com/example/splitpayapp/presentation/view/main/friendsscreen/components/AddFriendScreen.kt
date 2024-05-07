@@ -19,27 +19,41 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.splitpayapp.presentation.navigation.Screens
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddFriendScreen(navController: NavController) {
+fun AddFriendScreen(name: String, sItems: List<Friend>) {
+
+    var sItems by remember { mutableStateOf(listOf<Friend>()) }
+    val nameFieldState = remember { mutableStateOf("") }
+
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text(text = "Add Friend") }, actions = {
             TextButton(
-                onClick = { navController.navigate(Screens.FriendsScreen.name) }) {
+                onClick = {
+                    if (nameFieldState.value.isNotBlank()) {
+                        val newFriend = Friend(
+                            id = sItems.size + 1,
+                            name = nameFieldState.value
+                        )
+                        sItems = sItems + newFriend
+                        nameFieldState.value = ""
+                    }
+                }) {
                 Text(text = "Add")
             }
         }, navigationIcon = {
-            TextButton(onClick = { navController.popBackStack() }) {
+            TextButton(onClick = { }) {
                 Text(text = "Cancel")
             }
         })
@@ -59,8 +73,8 @@ fun AddFriendScreen(navController: NavController) {
                 Icon(Icons.Default.PersonAdd, contentDescription = "Photo")
                 // Name
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = nameFieldState.value,
+                    onValueChange = { nameFieldState.value = it },
                     label = { Text("Full Name") },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Text,
