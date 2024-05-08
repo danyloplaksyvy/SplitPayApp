@@ -22,7 +22,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.splitpayapp.presentation.navigation.navigationbaritems.NavItem
+import com.example.splitpayapp.presentation.navigation.bottomnavigationbar.NavItem
 import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.view.main.AddExpenseScreen
 import com.example.splitpayapp.presentation.view.main.friendsscreen.FriendsScreen
@@ -101,7 +101,9 @@ fun MainNavigationGraph(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(route = NavItem.Friends.route) {
-                FriendsScreen()
+                FriendsScreen(onAddFriendClick = {
+                    navController.navigate(Graph.ADD_FRIEND)
+                })
             }
             composable(route = NavItem.Groups.route) {
                 GroupsScreen()
@@ -130,6 +132,7 @@ fun MainNavigationGraph(
                     }
                 })
             }
+            addFriendNavGraph(navController)
         }
     }
 }

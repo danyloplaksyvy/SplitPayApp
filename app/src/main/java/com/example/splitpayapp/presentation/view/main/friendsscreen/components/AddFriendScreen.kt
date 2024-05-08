@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddFriendScreen(name: String, sItems: List<Friend>) {
+fun AddFriendScreen(onCancelClick: () -> Unit) {
 
     var sItems by remember { mutableStateOf(listOf<Friend>()) }
     val nameFieldState = remember { mutableStateOf("") }
@@ -53,7 +53,7 @@ fun AddFriendScreen(name: String, sItems: List<Friend>) {
                 Text(text = "Add")
             }
         }, navigationIcon = {
-            TextButton(onClick = { }) {
+            TextButton(onClick = { onCancelClick() }) {
                 Text(text = "Cancel")
             }
         })

@@ -1,4 +1,4 @@
-package com.example.splitpayapp.presentation.navigation.navigationbaritems
+package com.example.splitpayapp.presentation.navigation.bottomnavigationbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email

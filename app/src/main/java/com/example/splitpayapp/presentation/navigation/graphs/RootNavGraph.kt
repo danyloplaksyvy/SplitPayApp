@@ -39,4 +39,5 @@ object Graph {
     const val ROOT = "root_graph"
     const val AUTH = "auth_graph"
     const val MAIN_NAV = "main_nav_graph"
+    const val ADD_FRIEND = "add_friend_nav_graph"
 }

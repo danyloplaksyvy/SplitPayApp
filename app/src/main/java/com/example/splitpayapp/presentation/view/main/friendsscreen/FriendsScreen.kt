@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FriendsScreen() {
+fun FriendsScreen(onAddFriendClick: () -> Unit) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
@@ -44,7 +44,11 @@ fun FriendsScreen() {
         CenterAlignedTopAppBar(title = {
             Text(text = "Friends")
         }, actions = {
-            TextButton(onClick = { functionalityNotAvailablePopup = true }) {
+            TextButton(onClick = {
+//                functionalityNotAvailablePopup = true
+                onAddFriendClick()
+                // TODO -> Need navigate to AddFriendsScreen
+            }) {
                 Text(text = "Add friend")
             }
         })
@@ -60,7 +64,7 @@ fun FriendsScreen() {
                 val items = (1..25).toList()
                 LazyColumn(state = state) {
                     itemsIndexed(items) { index, item ->
-//                            FriendItem(friend = )
+//                            TODO -> Need to implement adding Friends
                     }
                 }
 
@@ -70,7 +74,6 @@ fun FriendsScreen() {
                     }
                 }
                 ScrollToTopButton(
-                    // Only show if the scroller is not at the bottom
                     enabled = showButton,
                     onClicked = {
                         scope.launch {
@@ -84,8 +87,8 @@ fun FriendsScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun FriendsScreenPreview(modifier: Modifier = Modifier) {
-    FriendsScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun FriendsScreenPreview(modifier: Modifier = Modifier) {
+//    FriendsScreen()
+//}
