@@ -7,13 +7,24 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.splitpayapp.presentation.navigation.Screens
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.AddFriendScreen
+import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 
-fun NavGraphBuilder.addFriendNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.addFriendNavGraph(
+    navController: NavHostController,
+    friendsViewModel: FriendsViewModel
+) {
+
     navigation(route = Graph.ADD_FRIEND, startDestination = AddFriend.ADD_FRIEND_SCREEN.route) {
         composable(route = AddFriend.ADD_FRIEND_SCREEN.route) {
-            AddFriendScreen(onCancelClick = {
-                navController.popBackStack()
-            })
+            AddFriendScreen(
+                onCancelClick = {
+                    navController.popBackStack()
+                },
+                onAddFriendClick = {
+                    navController.navigate(Graph.MAIN_NAV)
+                },
+                friendsViewModel = friendsViewModel
+            )
         }
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.TextButton
@@ -23,17 +24,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.FriendItem
+import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FriendsScreen(onAddFriendClick: () -> Unit) {
+fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsViewModel) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
+    
+//    val friendsViewModel: FriendsViewModel = viewModel()
+    val friends = friendsViewModel.friends
 
     var functionalityNotAvailablePopup by remember { mutableStateOf(false) }
     if (functionalityNotAvailablePopup) {
@@ -45,9 +51,7 @@ fun FriendsScreen(onAddFriendClick: () -> Unit) {
             Text(text = "Friends")
         }, actions = {
             TextButton(onClick = {
-//                functionalityNotAvailablePopup = true
-                onAddFriendClick()
-                // TODO -> Need navigate to AddFriendsScreen
+                onAddFriendButtonClick()
             }) {
                 Text(text = "Add friend")
             }
@@ -60,11 +64,12 @@ fun FriendsScreen(onAddFriendClick: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Box {
+            Box(modifier = Modifier.fillMaxSize()) {
                 val items = (1..25).toList()
                 LazyColumn(state = state) {
-                    itemsIndexed(items) { index, item ->
+                    itemsIndexed(friends) { index, friend ->
 //                            TODO -> Need to implement adding Friends
+                        FriendItem(friend = friend)
                     }
                 }
 

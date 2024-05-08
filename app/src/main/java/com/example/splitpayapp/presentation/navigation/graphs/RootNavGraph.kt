@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.navigation.Screens
+import com.example.splitpayapp.presentation.navigation.bottomnavigationbar.BottomNavigationBarScreen
 import com.example.splitpayapp.presentation.view.onboardingscreen.OnBoardingScreen
 import com.example.splitpayapp.presentation.viewmodel.MainViewModel
 
@@ -30,7 +31,8 @@ fun RootNavigationGraph(
         }
         authNavGraph(navController = rootNavController, googleAuthUiClient)
         composable(Graph.MAIN_NAV) {
-            MainNavigationGraph(googleAuthUiClient, rootNavController = rootNavController)
+//            MainNavigationGraph(googleAuthUiClient, rootNavController = rootNavController)
+            BottomNavigationBarScreen(googleAuthUiClient = googleAuthUiClient, rootNavController = rootNavController)
         }
     }
 }

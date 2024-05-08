@@ -28,14 +28,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddFriendScreen(onCancelClick: () -> Unit) {
+fun AddFriendScreen(onCancelClick: () -> Unit, friendsViewModel: FriendsViewModel, onAddFriendClick: () -> Unit) {
 
     var sItems by remember { mutableStateOf(listOf<Friend>()) }
     val nameFieldState = remember { mutableStateOf("") }
+    
+//    val viewModel: FriendsViewModel = viewModel()
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text(text = "Add Friend") }, actions = {
@@ -46,7 +51,9 @@ fun AddFriendScreen(onCancelClick: () -> Unit) {
                             id = sItems.size + 1,
                             name = nameFieldState.value
                         )
-                        sItems = sItems + newFriend
+                        friendsViewModel.addFriend(newFriend)
+                        onAddFriendClick()
+//                        sItems = sItems + newFriend
                         nameFieldState.value = ""
                     }
                 }) {
