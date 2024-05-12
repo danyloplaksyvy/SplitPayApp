@@ -10,5 +10,4 @@ enum class Screens {
     RegisterScreen,
     ForgotScreen,
     OnBoardingScreen,
-    AddFriendScreen
 }

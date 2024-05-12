@@ -38,7 +38,6 @@ fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsV
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
     
-//    val friendsViewModel: FriendsViewModel = viewModel()
     val friends = friendsViewModel.friends
 
     var functionalityNotAvailablePopup by remember { mutableStateOf(false) }

@@ -1,36 +1,20 @@
 package com.example.splitpayapp.presentation.navigation.graphs
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.example.splitpayapp.presentation.navigation.bottomnavigationbar.NavItem
 import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.view.main.AddExpenseScreen
 import com.example.splitpayapp.presentation.view.main.friendsscreen.FriendsScreen
-import com.example.splitpayapp.presentation.view.main.GroupsScreen
+import com.example.splitpayapp.presentation.view.main.groupsscreen.GroupsScreen
 import com.example.splitpayapp.presentation.view.main.ProfileScreen
 import com.example.splitpayapp.presentation.view.main.RecentActivityScreen
 import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
+import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
@@ -43,6 +27,7 @@ fun MainNavigationGraph(
 ) {
 
     val friendsViewModel = viewModel<FriendsViewModel>()
+    val groupsViewModel = viewModel<GroupsViewModel>()
 
 //    val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -59,7 +44,9 @@ fun MainNavigationGraph(
             )
         }
         composable(route = NavItem.Groups.route) {
-            GroupsScreen()
+            GroupsScreen(onAddGroupButtonClick = {
+                navController.navigate(Graph.ADD_GROUP)
+            }, groupsViewModel = groupsViewModel)
         }
         composable(route = NavItem.AddExpense.route) {
             AddExpenseScreen()
@@ -80,6 +67,7 @@ fun MainNavigationGraph(
                 }
             })
         }
-        addFriendNavGraph(navController, friendsViewModel = friendsViewModel)
+        addFriendNavGraph(navController, friendsViewModel)
+        addGroupNavGraph(navController, groupsViewModel)
     }
 }

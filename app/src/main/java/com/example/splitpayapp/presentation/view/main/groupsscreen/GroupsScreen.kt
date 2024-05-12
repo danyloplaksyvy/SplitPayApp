@@ -1,4 +1,4 @@
-package com.example.splitpayapp.presentation.view.main
+package com.example.splitpayapp.presentation.view.main.groupsscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,13 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.FriendItem
+import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.GroupItem
+import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupsScreen() {
+fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewModel) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
+
+    val groups = groupsViewModel.groups
 
     var functionalityNotAvailablePopup by remember { mutableStateOf(false) }
     if (functionalityNotAvailablePopup) {
@@ -44,7 +50,7 @@ fun GroupsScreen() {
                 text = "Groups"
             )
         }, actions = {
-            TextButton(onClick = { functionalityNotAvailablePopup = true }) {
+            TextButton(onClick = { onAddGroupButtonClick() }) {
                 Text(text = "Add Group")
             }
         }
@@ -57,11 +63,12 @@ fun GroupsScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Box {
+            Box(modifier = Modifier.fillMaxSize()) {
                 val items = (1..25).toList()
                 LazyColumn(state = state) {
-                    itemsIndexed(items) { index, item ->
-                        Text("Item at index $index: $item", Modifier.padding(16.dp))
+                    itemsIndexed(groups) { index, group ->
+//                            TODO -> Need to implement adding Friends
+                        GroupItem(group = group)
                     }
                 }
 
@@ -71,7 +78,6 @@ fun GroupsScreen() {
                     }
                 }
                 ScrollToTopButton(
-                    // Only show if the scroller is not at the bottom
                     enabled = showButton,
                     onClicked = {
                         scope.launch {
