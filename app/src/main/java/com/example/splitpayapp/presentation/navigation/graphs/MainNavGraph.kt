@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.splitpayapp.presentation.navigation.bottomnavigationbar.NavItem
 import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
+import com.example.splitpayapp.presentation.navigation.Screens
 import com.example.splitpayapp.presentation.view.main.AddExpenseScreen
 import com.example.splitpayapp.presentation.view.main.friendsscreen.FriendsScreen
 import com.example.splitpayapp.presentation.view.main.groupsscreen.GroupsScreen

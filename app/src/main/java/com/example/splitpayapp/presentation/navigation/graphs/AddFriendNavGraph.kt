@@ -18,7 +18,7 @@ fun NavGraphBuilder.addFriendNavGraph(
         composable(route = AddFriend.ADD_FRIEND_SCREEN.route) {
             AddFriendScreen(
                 onCancelClick = {
-                    navController.popBackStack()
+                    navController.navigate(Graph.MAIN_NAV)
                 },
                 onAddFriendClick = {
                     navController.navigate(Graph.MAIN_NAV)

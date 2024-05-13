@@ -87,6 +87,8 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     kapt("com.google.dagger:hilt-compiler:2.48.1")
 
+    //Coil
+    implementation(libs.coil.kt.coil.compose)
 
 
     implementation(libs.androidx.core.ktx)

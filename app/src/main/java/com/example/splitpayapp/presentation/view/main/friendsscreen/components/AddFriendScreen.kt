@@ -1,5 +1,6 @@
 package com.example.splitpayapp.presentation.view.main.friendsscreen.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,8 @@ fun AddFriendScreen(onCancelClick: () -> Unit, friendsViewModel: FriendsViewMode
     val sItems by remember { mutableStateOf(listOf<Friend>()) }
     val nameFieldState = remember { mutableStateOf("") }
 
+    val context = LocalContext.current
+
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text(text = "Add Friend") }, actions = {
             TextButton(
@@ -53,6 +57,8 @@ fun AddFriendScreen(onCancelClick: () -> Unit, friendsViewModel: FriendsViewMode
                         onAddFriendClick()
 //                        sItems = sItems + newFriend
                         nameFieldState.value = ""
+                    } else {
+                        Toast.makeText(context, "Enter name", Toast.LENGTH_LONG).show()
                     }
                 }) {
                 Text(text = "Add")

@@ -29,6 +29,7 @@ import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.FriendItem
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.getFakeFriendList
 import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 import kotlinx.coroutines.launch
 
@@ -37,7 +38,7 @@ import kotlinx.coroutines.launch
 fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsViewModel) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    
+
     val friends = friendsViewModel.friends
 
     var functionalityNotAvailablePopup by remember { mutableStateOf(false) }
@@ -67,8 +68,18 @@ fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsV
                 val items = (1..25).toList()
                 LazyColumn(state = state) {
                     itemsIndexed(friends) { index, friend ->
-//                            TODO -> Need to implement adding Friends
-                        FriendItem(friend = friend)
+//                            TODO -> Need to implement editing, deleting Friends!!!
+                        FriendItem(
+                            friend = friend,
+                            onUpdateFriend = {
+                                friendsViewModel.updateFriendName(
+                                    friend,
+                                    friend.name
+                                )
+                            },
+                            onDeleteFriend = { friendsViewModel.removeFriend(friend) }
+                        )
+
                     }
                 }
 
