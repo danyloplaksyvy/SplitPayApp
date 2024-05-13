@@ -1,5 +1,9 @@
 package com.example.splitpayapp.presentation.view.main.friendsscreen
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.EditFriendDialog
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.FriendItem
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.getFakeFriendList
@@ -65,21 +70,20 @@ fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsV
             verticalArrangement = Arrangement.Center
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
-                val items = (1..25).toList()
-                LazyColumn(state = state) {
-                    itemsIndexed(friends) { index, friend ->
-//                            TODO -> Need to implement editing, deleting Friends!!!
-                        FriendItem(
-                            friend = friend,
-                            onUpdateFriend = {
-                                friendsViewModel.updateFriendName(
-                                    friend,
-                                    friend.name
-                                )
-                            },
-                            onDeleteFriend = { friendsViewModel.removeFriend(friend) }
-                        )
+                Column {
+                    LazyColumn(state = state) {
+                        itemsIndexed(friends, key = { _, friend -> friend.id }) { index, friend ->
+//                            TODO -> Need to implement editing Friends!!!
+                            FriendItem(
+                                friend = friend,
+                                onUpdateFriend = {
 
+                                },
+                                onDeleteFriend = {
+                                    friendsViewModel.removeFriend(friend)
+                                }
+                            )
+                        }
                     }
                 }
 

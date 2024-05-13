@@ -4,7 +4,8 @@ data class Friend(
     val id: Int,
     val name: String,
     val image: String = "https://picsum.photos/200",
-    var isEditing: Boolean = false
+    var isEditing: Boolean = false,
+    var isDeleting: Boolean = false
 )
 
 

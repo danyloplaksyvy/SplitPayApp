@@ -1,5 +1,9 @@
 package com.example.splitpayapp.presentation.view.main.friendsscreen.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -39,51 +43,62 @@ fun FriendItem(friend: Friend, onUpdateFriend: () -> Unit, onDeleteFriend: (Frie
         var newName by remember { mutableStateOf(friend.name) }
     }
 
+    var visible by remember { mutableStateOf(true) }
 
-    Card(elevation = 10.dp, shape = RoundedCornerShape(10.dp), modifier = Modifier.padding(8.dp)) {
-        Box(
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(16.dp)
+    AnimatedVisibility(
+        visible = visible,
+        enter = expandVertically(),
+        exit = shrinkVertically(animationSpec = tween(durationMillis = 500))
+    ) {
+        Card(
+            elevation = 10.dp,
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier.padding(8.dp)
         ) {
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+            Box(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(16.dp)
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current).data("${friend.image}")
-                        .crossfade(true).build(),
-                    contentDescription = "Photo",
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(8.dp)
-                        .clip(
-                            CircleShape
-                        )
-                )
-//                Icon(
-//                    Icons.Default.Person,
-//                    contentDescription = "Photo",
-//                    Modifier.padding(horizontal = 8.dp)
-//                )
-                Text(text = friend.name, style = MaterialTheme.typography.bodyLarge)
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        onUpdateFriend()
-                        Icon(
-                            Icons.Default.Edit,
-                            contentDescription = "Edit",
-                        )
-                    }
-                    IconButton(onClick = {
-                        onDeleteFriend(friend)
-                    }) {
-                        Icon(
-                            Icons.Default.Delete,
-                            contentDescription = "Delete",
-                        )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current).data(friend.image)
+                            .crossfade(true).build(),
+                        contentDescription = "Photo",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .padding(8.dp)
+                            .clip(
+                                CircleShape
+                            )
+                    )
+                    Text(text = friend.name, style = MaterialTheme.typography.bodyLarge)
+                    Text(text = friend.id.toString(), style = MaterialTheme.typography.bodyLarge)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        IconButton(onClick = {
+                            onUpdateFriend()
+                        }) {
+                            Icon(
+                                Icons.Default.Edit,
+                                contentDescription = "Edit",
+                            )
+                        }
+                        IconButton(onClick = {
+                            onDeleteFriend(friend)
+                            visible = false
+                        }) {
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = "Delete",
+                            )
+                        }
                     }
                 }
             }
