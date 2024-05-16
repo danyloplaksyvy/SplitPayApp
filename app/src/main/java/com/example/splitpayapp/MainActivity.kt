@@ -44,7 +44,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    AddFriendScreen()
                     RootNavigationGraph(
                         googleAuthUiClient = googleAuthUiClient,
                         startDestination = mainViewModel.startDestination,

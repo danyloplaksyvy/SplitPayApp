@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun EditFriendDialog(friend: Friend, onDismiss: () -> Unit, onConfirmEdit: (Friend) -> Unit) {
@@ -16,7 +17,7 @@ fun EditFriendDialog(friend: Friend, onDismiss: () -> Unit, onConfirmEdit: (Frie
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Edit Friend Name") },
+        title = { Text("Edit Friend Name", textAlign = TextAlign.Center) },
         text = {
             OutlinedTextField(
                 value = newName,

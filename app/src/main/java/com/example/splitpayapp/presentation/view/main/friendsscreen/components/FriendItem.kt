@@ -39,10 +39,6 @@ import coil.request.ImageRequest
 @Composable
 fun FriendItem(friend: Friend, onUpdateFriend: () -> Unit, onDeleteFriend: (Friend) -> Unit) {
 
-    if (friend.isEditing) {
-        var newName by remember { mutableStateOf(friend.name) }
-    }
-
     var visible by remember { mutableStateOf(true) }
 
     AnimatedVisibility(
@@ -65,6 +61,7 @@ fun FriendItem(friend: Friend, onUpdateFriend: () -> Unit, onDeleteFriend: (Frie
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Text(text = friend.id.toString(), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(8.dp))
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current).data(friend.image)
                             .crossfade(true).build(),
@@ -77,7 +74,6 @@ fun FriendItem(friend: Friend, onUpdateFriend: () -> Unit, onDeleteFriend: (Frie
                             )
                     )
                     Text(text = friend.name, style = MaterialTheme.typography.bodyLarge)
-                    Text(text = friend.id.toString(), style = MaterialTheme.typography.bodyLarge)
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
@@ -105,15 +101,4 @@ fun FriendItem(friend: Friend, onUpdateFriend: () -> Unit, onDeleteFriend: (Frie
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun FriendItemPreview() {
-//    FriendItem(friend = friend1)
-//}
-
-val friend1 = Friend(
-    1, "John"
-)
-
 

@@ -1,21 +1,19 @@
 package com.example.splitpayapp.presentation.view.main.friendsscreen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.TextButton
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,14 +25,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.EditFriendDialog
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.FriendItem
-import com.example.splitpayapp.presentation.view.main.friendsscreen.components.getFakeFriendList
 import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 import kotlinx.coroutines.launch
 
@@ -46,10 +41,14 @@ fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsV
 
     val friends = friendsViewModel.friends
 
+    var showDialog by remember { mutableStateOf(false) }
+    var friendToEdit by remember { mutableStateOf<Friend?>(null) }
+
     var functionalityNotAvailablePopup by remember { mutableStateOf(false) }
     if (functionalityNotAvailablePopup) {
         FunctionalityAlert { functionalityNotAvailablePopup = false }
     }
+
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = {
@@ -77,6 +76,9 @@ fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsV
                             FriendItem(
                                 friend = friend,
                                 onUpdateFriend = {
+                                    friendToEdit = friend
+                                    showDialog = true
+//                                        friendsViewModel.updateFriendName(friend, newName)
 
                                 },
                                 onDeleteFriend = {
@@ -101,13 +103,22 @@ fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsV
                     },
                     modifier = Modifier.align(Alignment.BottomCenter)
                 )
+
+                if (showDialog && friendToEdit != null) {
+                    EditFriendDialog(
+                        friend = friendToEdit!!,
+                        onDismiss = {
+                            showDialog = false
+                            friendToEdit = null
+                        },
+                        onConfirmEdit = { updatedFriend ->
+                            friendsViewModel.updateFriendName(updatedFriend, updatedFriend.name)
+                            showDialog = false
+                            friendToEdit = null
+                        }
+                    )
+                }
             }
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun FriendsScreenPreview(modifier: Modifier = Modifier) {
-//    FriendsScreen()
-//}

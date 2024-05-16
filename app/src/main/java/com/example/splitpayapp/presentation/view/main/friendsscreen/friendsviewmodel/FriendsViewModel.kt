@@ -14,15 +14,19 @@ class FriendsViewModel : ViewModel() {
     private val _friends = mutableStateListOf<Friend>()
     val friends: List<Friend> get() = _friends.toList()
 
-    private var friendId = 0
+    private var friendId = 1
 
     fun addFriend(newFriend: Friend) {
         _friends.add(newFriend.copy(id = friendId++))
     }
 
     fun updateFriendName(friend: Friend, newName: String) {
-        val index = _friends.indexOf(friend)
-        _friends[index] = friend.copy(name = newName, isEditing = false)
+//        val index = _friends.indexOf(friend)
+//        _friends[index] = friend.copy(name = newName, isEditing = false)
+        val index = _friends.indexOfFirst { it.id == friend.id }
+        if (index != -1) {
+            _friends[index] = friend.copy(name = newName)
+        }
     }
 
     fun removeFriend(friend: Friend) {
