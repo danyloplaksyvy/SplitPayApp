@@ -72,14 +72,11 @@ fun FriendsScreen(onAddFriendButtonClick: () -> Unit, friendsViewModel: FriendsV
                 Column {
                     LazyColumn(state = state) {
                         itemsIndexed(friends, key = { _, friend -> friend.id }) { index, friend ->
-//                            TODO -> Need to implement editing Friends!!!
                             FriendItem(
                                 friend = friend,
                                 onUpdateFriend = {
                                     friendToEdit = friend
                                     showDialog = true
-//                                        friendsViewModel.updateFriendName(friend, newName)
-
                                 },
                                 onDeleteFriend = {
                                     friendsViewModel.removeFriend(friend)

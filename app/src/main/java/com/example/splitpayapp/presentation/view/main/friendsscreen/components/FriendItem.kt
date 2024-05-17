@@ -101,4 +101,3 @@ fun FriendItem(friend: Friend, onUpdateFriend: () -> Unit, onDeleteFriend: (Frie
         }
     }
 }
-

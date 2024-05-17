@@ -25,8 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.EditFriendDialog
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.FriendItem
 import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.EditGroupDialog
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.Group
 import com.example.splitpayapp.presentation.view.main.groupsscreen.components.GroupItem
 import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 import kotlinx.coroutines.launch
@@ -38,11 +42,13 @@ fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewM
     val scope = rememberCoroutineScope()
 
     val groups = groupsViewModel.groups
+    var showDialog by remember { mutableStateOf(false) }
+    var groupToEdit by remember { mutableStateOf<Group?>(null) }
 
-    var functionalityNotAvailablePopup by remember { mutableStateOf(false) }
-    if (functionalityNotAvailablePopup) {
-        FunctionalityAlert { functionalityNotAvailablePopup = false }
-    }
+//    var functionalityNotAvailablePopup by remember { mutableStateOf(false) }
+//    if (functionalityNotAvailablePopup) {
+//        FunctionalityAlert { functionalityNotAvailablePopup = false }
+//    }
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = {
@@ -64,14 +70,21 @@ fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewM
             verticalArrangement = Arrangement.Center
         ) {
             Box(modifier = Modifier.fillMaxSize()) {
-                val items = (1..25).toList()
-                LazyColumn(state = state) {
-                    itemsIndexed(groups) { index, group ->
-//                            TODO -> Need to implement adding Friends
-                        GroupItem(group = group)
+                Column {
+                    LazyColumn(state = state) {
+                        itemsIndexed(groups, key = { _, group -> group.id }) { index, group ->
+                            GroupItem(
+                                group = group,
+                                onUpdateGroup = {
+                                    groupToEdit = group
+                                    showDialog = true
+                                },
+                                onDeleteGroup = {
+                                    groupsViewModel.removeGroup(group)
+                                })
+                        }
                     }
                 }
-
                 val showButton by remember {
                     derivedStateOf {
                         state.firstVisibleItemIndex > 0 || state.firstVisibleItemScrollOffset > 0
@@ -86,6 +99,20 @@ fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewM
                     },
                     modifier = Modifier.align(Alignment.BottomCenter)
                 )
+                if (showDialog && groupToEdit != null) {
+                    EditGroupDialog(
+                        group = groupToEdit!!,
+                        onDismiss = {
+                            showDialog = false
+                            groupToEdit = null
+                        },
+                        onConfirmEdit = { updatedGroup ->
+                            groupsViewModel.updateGroupName(updatedGroup, updatedGroup.name)
+                            showDialog = false
+                            groupToEdit = null
+                        }
+                    )
+                }
             }
         }
     }

@@ -21,8 +21,6 @@ class FriendsViewModel : ViewModel() {
     }
 
     fun updateFriendName(friend: Friend, newName: String) {
-//        val index = _friends.indexOf(friend)
-//        _friends[index] = friend.copy(name = newName, isEditing = false)
         val index = _friends.indexOfFirst { it.id == friend.id }
         if (index != -1) {
             _friends[index] = friend.copy(name = newName)
