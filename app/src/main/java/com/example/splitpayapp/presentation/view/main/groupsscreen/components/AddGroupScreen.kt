@@ -2,6 +2,7 @@ package com.example.splitpayapp.presentation.view.main.groupsscreen.components
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TextButton
@@ -60,6 +62,7 @@ fun AddGroupScreen(
 ) {
 
     val categoryItem = listOf(
+        CategoryGroupItem.Any,
         CategoryGroupItem.Home,
         CategoryGroupItem.Work,
         CategoryGroupItem.Health,
@@ -68,7 +71,6 @@ fun AddGroupScreen(
         CategoryGroupItem.Education
     )
 
-    val sItems by remember { mutableStateOf(listOf<Friend>()) }
     val nameFieldState = remember { mutableStateOf("") }
 
     val context = LocalContext.current
@@ -79,12 +81,11 @@ fun AddGroupScreen(
                 onClick = {
                     if (nameFieldState.value.isNotBlank()) {
                         val newGroup = Group(
-                            id = sItems.size + 1,
+                            id = 0,
                             name = nameFieldState.value
                         )
                         groupsViewModel.addGroup(newGroup = newGroup)
                         onAddGroupClick()
-//                        sItems = sItems + newFriend
                         nameFieldState.value = ""
                     } else {
                         Toast.makeText(context, "Enter name", Toast.LENGTH_LONG).show()
@@ -108,9 +109,8 @@ fun AddGroupScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp), verticalAlignment = Alignment.CenterVertically
+                    .padding(16.dp), verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Default.Groups, contentDescription = "Photo")
                 // Name
                 OutlinedTextField(
                     value = nameFieldState.value,
@@ -127,22 +127,58 @@ fun AddGroupScreen(
                         )
                     },
                     modifier = Modifier
-                        .padding(8.dp)
                         .fillMaxWidth()
                 )
             }
+            // Category
             Spacer(modifier = Modifier.padding(16.dp))
             CategoryLazyRow(categoryItem = categoryItem)
-
+            // Members
+            Spacer(modifier = Modifier.padding(16.dp))
+            Text(
+                text = "Members: ",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                textAlign = TextAlign.Start
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .clickable { }
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 1f))
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Default.Groups,
+                        contentDescription = "Members",
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.size(36.dp)
+                    )
+                    Text(
+                        text = "Add Members...",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            }
         }
+
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun AddGroupScreenPreview() {
-    // Create a mock instance of GroupsViewModel
     val groupsViewModel = GroupsViewModel()
 
     AddGroupScreen(

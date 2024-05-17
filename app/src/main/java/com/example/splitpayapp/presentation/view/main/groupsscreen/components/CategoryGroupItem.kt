@@ -3,6 +3,7 @@ package com.example.splitpayapp.presentation.view.main.groupsscreen.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AirplanemodeActive
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Healing
 import androidx.compose.material.icons.filled.Home
@@ -27,6 +28,10 @@ sealed class CategoryGroupItem(
     val size: Dp = 24.dp,
     val name: String
 ) {
+    object Any: CategoryGroupItem(
+        icon = Icons.Default.AttachMoney,
+        name = "Any"
+    )
     object Travel: CategoryGroupItem(
         icon = Icons.Default.AirplanemodeActive,
         name = "Travel"
