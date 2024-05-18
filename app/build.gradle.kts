@@ -64,11 +64,11 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.6")
 
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-firestore")
-    implementation ("com.google.android.gms:play-services-auth:20.4.1")
-    implementation ("com.google.firebase:firebase-auth-ktx")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation ("com.google.android.gms:play-services-auth:21.1.1")
+    implementation (libs.firebase.auth.ktx)
 
     // ViewModel
 //    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
