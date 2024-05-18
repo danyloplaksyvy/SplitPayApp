@@ -6,6 +6,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -63,19 +64,26 @@ fun GroupItem(group: Group, onUpdateGroup: () -> Unit, onDeleteGroup: (Group) ->
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = group.id.toString(), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(8.dp))
-//                    AsyncImage(
-//                        model = ImageRequest.Builder(LocalContext.current).data(group)
-//                            .crossfade(true).build(),
-//                        contentDescription = "Photo",
-//                        modifier = Modifier
-//                            .size(48.dp)
-//                            .padding(8.dp)
-//                            .clip(
-//                                CircleShape
-//                            )
-//                    )
-                    Text(text = group.name, style = MaterialTheme.typography.bodyLarge)
+                    Text(
+                        text = group.id.toString(),
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current).data(group.image)
+                            .crossfade(true).build(),
+                        contentDescription = "Photo",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .padding(8.dp)
+                            .clip(
+                                CircleShape
+                            )
+                    )
+                    Column {
+                        Text(text = group.name, style = MaterialTheme.typography.bodyMedium)
+                        Text(text = group.category, style = MaterialTheme.typography.bodySmall)
+                    }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End

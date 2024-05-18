@@ -61,7 +61,11 @@ fun FriendItem(friend: Friend, onUpdateFriend: () -> Unit, onDeleteFriend: (Frie
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = friend.id.toString(), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(8.dp))
+                    Text(
+                        text = friend.id.toString(),
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(8.dp)
+                    )
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current).data(friend.image)
                             .crossfade(true).build(),

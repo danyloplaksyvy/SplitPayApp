@@ -83,9 +83,11 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.0")
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.48.1")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    // Fonts
     implementation(libs.androidx.ui.text.google.fonts)
-    kapt("com.google.dagger:hilt-compiler:2.48.1")
 
     //Coil
     implementation(libs.coil.kt.coil.compose)

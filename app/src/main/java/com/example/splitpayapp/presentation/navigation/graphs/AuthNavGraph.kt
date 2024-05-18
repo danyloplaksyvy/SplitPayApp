@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.splitpayapp.presentation.navigation.Screens
-import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
+import com.example.splitpayapp.presentation.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.view.auth.LoginScreen
 import com.example.splitpayapp.presentation.view.auth.ForgotScreen
 import com.example.splitpayapp.presentation.view.auth.RegisterScreen

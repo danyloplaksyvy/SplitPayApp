@@ -18,7 +18,8 @@ sealed class CategoryGroupItem(
     val color: Color = Color(5, 9, 21),
     val icon: ImageVector,
     val size: Dp = 24.dp,
-    val name: String
+    var name: String,
+    var isSelected: Boolean = false
 ) {
     data object Any: CategoryGroupItem(
         icon = Icons.Default.AttachMoney,

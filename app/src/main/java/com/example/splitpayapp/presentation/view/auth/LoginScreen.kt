@@ -18,7 +18,6 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -33,7 +32,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.splitpayapp.R
 import com.example.splitpayapp.presentation.navigation.Screens
-import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
+import com.example.splitpayapp.presentation.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.navigation.graphs.Graph
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

@@ -1,5 +1,6 @@
 package com.example.splitpayapp.presentation.view.main.groupsscreen.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,9 +33,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CategoryLazyRow(categoryItem: List<CategoryGroupItem>) {
+fun CategoryLazyRow(categoryName: MutableState<String>) {
+    val categoryItem = listOf(
+        CategoryGroupItem.Any,
+        CategoryGroupItem.Home,
+        CategoryGroupItem.Work,
+        CategoryGroupItem.Health,
+        CategoryGroupItem.Travel,
+        CategoryGroupItem.Bills,
+        CategoryGroupItem.Education
+    )
+
+    var selectedItem by remember { mutableStateOf<CategoryGroupItem?>(null) }
+
+
     Text(
-        text = "Category: ",
+        text = "Category:",
         style = MaterialTheme.typography.bodyLarge,
         modifier = Modifier
             .fillMaxWidth()
@@ -52,10 +71,24 @@ fun CategoryLazyRow(categoryItem: List<CategoryGroupItem>) {
         ) {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(categoryItem) { item ->
+                    val isSelected = item == selectedItem
+                    val backgroundColor by animateColorAsState(
+                        targetValue = if (isSelected) {
+                            MaterialTheme.colorScheme.secondary.copy(alpha = 1f)
+                        } else {
+                            MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
+                        }
+                    )
                     TextButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            selectedItem = item
+                            categoryName.value = item.name
+                        },
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimary),
-                        colors = ButtonDefaults.textButtonColors(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f))
+                        colors = ButtonDefaults.textButtonColors(
+                            containerColor = backgroundColor
+
+                        )
                     ) {
                         Text(text = "${item.name} ", color = MaterialTheme.colorScheme.onPrimary)
                         Icon(

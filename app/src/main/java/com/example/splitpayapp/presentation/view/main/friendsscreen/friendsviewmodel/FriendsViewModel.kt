@@ -7,23 +7,41 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
-import com.example.splitpayapp.presentation.view.main.friendsscreen.components.friendsrepository.FriendsRepository
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
-class FriendsViewModel @Inject constructor(
-    private val repository: FriendsRepository
+class FriendsViewModel (
 ) : ViewModel() {
     private val _friends = mutableStateListOf<Friend>()
     val friends: List<Friend> get() = _friends.toList()
 
     private var friendId = 1
+//    private val fs = Firebase.firestore
 
-    fun addFriend(newFriend: Friend) = viewModelScope.launch {
-//        repository
-        _friends.add(newFriend.copy(id = friendId++))
+//    suspend
+    fun addFriend(friend: Friend) {
+        _friends.add(friend.copy(id = friendId++))
+//        val userId = com.google.firebase.Firebase.auth.currentUser?.uid ?: return
+//
+//        com.google.firebase.Firebase.firestore
+//            .collection("users")
+//            .document(userId)
+//            .collection("friends")
+//            .add(friend)
+//            .await()
+    }
+
+    suspend fun getFriends(friend: Friend) {
+
     }
 
     fun updateFriendName(friend: Friend, newName: String) {

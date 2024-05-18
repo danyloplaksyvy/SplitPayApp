@@ -21,7 +21,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.splitpayapp.presentation.googlesignin.model.GoogleAuthUiClient
+import com.example.splitpayapp.presentation.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.navigation.graphs.MainNavigationGraph
 
 @Composable

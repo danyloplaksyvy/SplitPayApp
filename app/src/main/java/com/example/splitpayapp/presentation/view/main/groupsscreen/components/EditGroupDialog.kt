@@ -15,16 +15,18 @@ import com.example.splitpayapp.presentation.view.main.friendsscreen.components.F
 @Composable
 fun EditGroupDialog(group: Group, onDismiss: () -> Unit, onConfirmEdit: (Group) -> Unit) {
     var newName by remember { mutableStateOf(group.name) }
+    var newCategory = remember { mutableStateOf(group.category) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Edit Friend Name", textAlign = TextAlign.Center) },
+        title = { Text("Edit Group", textAlign = TextAlign.Center) },
         text = {
             OutlinedTextField(
                 value = newName,
                 onValueChange = { newName = it },
                 label = { Text("New Name") }
             )
+            CategoryLazyRow(categoryName = newCategory)
         },
         confirmButton = {
             Button(onClick = {

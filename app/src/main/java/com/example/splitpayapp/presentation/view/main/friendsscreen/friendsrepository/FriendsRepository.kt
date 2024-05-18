@@ -1,4 +1,4 @@
-package com.example.splitpayapp.presentation.view.main.friendsscreen.components.friendsrepository
+package com.example.splitpayapp.presentation.view.main.friendsscreen.friendsrepository
 
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.google.firebase.Firebase
@@ -10,6 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class FriendsRepository @Inject constructor() {
+
     suspend fun addFriend(friend: Friend) {
         val userId = Firebase.auth.currentUser?.uid ?: return
 

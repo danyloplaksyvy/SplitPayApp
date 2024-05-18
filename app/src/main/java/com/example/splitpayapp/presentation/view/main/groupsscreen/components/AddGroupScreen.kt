@@ -19,6 +19,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,17 +48,8 @@ fun AddGroupScreen(
     onAddGroupClick: () -> Unit
 ) {
 
-    val categoryItem = listOf(
-        CategoryGroupItem.Any,
-        CategoryGroupItem.Home,
-        CategoryGroupItem.Work,
-        CategoryGroupItem.Health,
-        CategoryGroupItem.Travel,
-        CategoryGroupItem.Bills,
-        CategoryGroupItem.Education
-    )
-
     val nameFieldState = remember { mutableStateOf("") }
+    val categoryState = remember { mutableStateOf("Any") }
 
     val context = LocalContext.current
 
@@ -68,11 +60,11 @@ fun AddGroupScreen(
                     if (nameFieldState.value.isNotBlank()) {
                         val newGroup = Group(
                             id = 0,
-                            name = nameFieldState.value
+                            name = nameFieldState.value,
+                            category = categoryState.value
                         )
                         groupsViewModel.addGroup(newGroup = newGroup)
                         onAddGroupClick()
-                        nameFieldState.value = ""
                     } else {
                         Toast.makeText(context, "Enter name", Toast.LENGTH_LONG).show()
                     }
@@ -108,7 +100,7 @@ fun AddGroupScreen(
                     ),
                     trailingIcon = {
                         Icon(
-                            Icons.Outlined.Person,
+                            Icons.Outlined.Groups,
                             contentDescription = null,
                         )
                     },
@@ -118,7 +110,7 @@ fun AddGroupScreen(
             }
             // Category
             Spacer(modifier = Modifier.padding(16.dp))
-            CategoryLazyRow(categoryItem = categoryItem)
+            CategoryLazyRow(categoryName = categoryState)
             // Members
             Spacer(modifier = Modifier.padding(16.dp))
             Text(
