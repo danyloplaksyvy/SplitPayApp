@@ -40,15 +40,12 @@ fun AddFriendScreen(onCancelClick: () -> Unit, friendsViewModel: FriendsViewMode
     val nameFieldState = remember { mutableStateOf("") }
     val context = LocalContext.current
 
-    val friendId = remember { mutableStateOf("") }
-
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text(text = "Add Friend") }, actions = {
             TextButton(
                 onClick = {
                     if (nameFieldState.value.isNotBlank()) {
                         val newFriend = Friend(
-                            id = friendId.value,
                             name = nameFieldState.value
                         )
                         friendsViewModel.addFriend(newFriend)

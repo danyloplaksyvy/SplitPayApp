@@ -1,71 +1,70 @@
-package com.example.splitpayapp.presentation.view.main.friendsscreen.friendsrepository
+package com.example.splitpayapp.presentation.view.main.groupsscreen.grouprepository
 
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.Group
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FriendsRepository @Inject constructor() {
+class GroupRepository @Inject constructor() {
     private val db = Firebase.firestore
 
     companion object {
-        private const val FRIENDS = "friends"
+        private const val GROUPS = "groups"
         private const val USERS = "users"
     }
 
-    suspend fun addFriend(friend: Friend) {
+    suspend fun addGroup(group: Group) {
         val userId = Firebase.auth.currentUser?.uid ?: return // Get user ID
 
         // Get a new document reference with an auto-generated ID
-        val newFriendRef = db.collection(USERS)
+        val newGroupRef = db.collection(USERS)
             .document(userId)
-            .collection(FRIENDS)
+            .collection(GROUPS)
             .document() // Create a new document with an auto-generated ID
 
-        // Set the friend data with the new ID
-        newFriendRef.set(friend.copy(id = newFriendRef.id)).await()
+        // Set the group data with the new ID
+        newGroupRef.set(group.copy(id = newGroupRef.id)).await()
     }
 
-    suspend fun removeFriend(userId: String, friend: Friend) {
+    suspend fun removeGroup(userId: String, group: Group) {
         Firebase.firestore.collection(USERS)
             .document(userId)
-            .collection(FRIENDS)
-            .document(friend.id)
+            .collection(GROUPS)
+            .document(group.id)
             .delete()
             .await()
     }
 
-    suspend fun updateFriend(userId: String, friend: Friend) {
+    suspend fun updateGroup(userId: String, group: Group) {
         Firebase.firestore.collection(USERS)
             .document(userId)
-            .collection(FRIENDS)
-            .document(friend.id)
-            .set(friend, SetOptions.merge())
+            .collection(GROUPS)
+            .document(group.id)
+            .set(group, SetOptions.merge())
             .await()
     }
 
-    fun getFriends(userId: String): Flow<List<Friend>> = callbackFlow {
+    fun getGroups(userId: String): Flow<List<Group>> = callbackFlow {
         val listener = db.collection(USERS)
             .document(userId)
-            .collection(FRIENDS)
+            .collection(GROUPS)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     close(error)
                     return@addSnapshotListener
                 }
 
-                val friendsList = snapshot?.toObjects(Friend::class.java) ?: emptyList()
-                trySend(friendsList).isSuccess
+                val groupsList = snapshot?.toObjects(Group::class.java) ?: emptyList()
+                trySend(groupsList).isSuccess
             }
 
         awaitClose { listener.remove() }

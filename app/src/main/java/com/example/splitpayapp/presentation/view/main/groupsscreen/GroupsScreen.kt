@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.splitpayapp.FunctionalityAlert
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.EditFriendDialog
@@ -37,11 +39,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewModel) {
+fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewModel = hiltViewModel()) {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
-    val groups = groupsViewModel.groups
+    val groups by groupsViewModel.groups.collectAsState(emptyList())
     var showDialog by remember { mutableStateOf(false) }
     var groupToEdit by remember { mutableStateOf<Group?>(null) }
 
@@ -80,7 +82,7 @@ fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewM
                                     showDialog = true
                                 },
                                 onDeleteGroup = {
-                                    groupsViewModel.removeGroup(group)
+                                    groupsViewModel.removeGroup(group = group)
                                 })
                         }
                     }
@@ -107,7 +109,7 @@ fun GroupsScreen(onAddGroupButtonClick: () -> Unit, groupsViewModel: GroupsViewM
                             groupToEdit = null
                         },
                         onConfirmEdit = { updatedGroup ->
-                            groupsViewModel.updateGroupName(updatedGroup, updatedGroup.name)
+                            groupsViewModel.updateGroup(updatedGroup)
                             showDialog = false
                             groupToEdit = null
                         }

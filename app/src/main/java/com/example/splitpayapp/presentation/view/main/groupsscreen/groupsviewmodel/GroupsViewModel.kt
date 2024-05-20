@@ -1,36 +1,47 @@
 package com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.groupsscreen.components.Group
+import com.example.splitpayapp.presentation.view.main.groupsscreen.grouprepository.GroupRepository
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GroupsViewModel: ViewModel() {
-    private val _groups = mutableStateListOf<Group>()
-    val groups: List<Group> get() = _groups.toList()
+@HiltViewModel
+class GroupsViewModel @Inject constructor(
+    private val repository: GroupRepository
+) : ViewModel() {
+    private val _groups = MutableStateFlow<List<Group>>(emptyList())
+    val groups: StateFlow<List<Group>> = _groups
 
-    private var groupId = 1
-
-    fun addGroup(newGroup: Group) {
-        _groups.add(newGroup.copy(id = groupId++))
-    }
-
-
-    fun updateGroupName(group: Group, newName: String) {
-        val index = _groups.indexOfFirst { it.id == group.id }
-        if (index != -1) {
-            _groups[index] = group.copy(name = newName)
+    init {
+        viewModelScope.launch {
+            repository.getGroups(Firebase.auth.currentUser?.uid!!).collect {
+                _groups.value = it
+            }
         }
     }
 
-    fun removeGroup(group: Group) {
+    fun addGroup(group: Group) = viewModelScope.launch {
+        repository.addGroup(group)
+    }
+
+    fun removeGroup(group: Group) = viewModelScope.launch {
         group.isDeleting = true
         viewModelScope.launch {
             delay(500) // Delay to match the animation duration
-            _groups.remove(group)
+            repository.removeGroup(Firebase.auth.currentUser?.uid!!, group)
         }
     }
+
+    fun updateGroup(group: Group) = viewModelScope.launch {
+        repository.updateGroup(Firebase.auth.currentUser?.uid!!, group)
+    }
+
 }

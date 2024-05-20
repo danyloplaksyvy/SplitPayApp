@@ -20,7 +20,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.outlined.Groups
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,7 +35,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 
@@ -59,11 +57,10 @@ fun AddGroupScreen(
                 onClick = {
                     if (nameFieldState.value.isNotBlank()) {
                         val newGroup = Group(
-                            id = 0,
                             name = nameFieldState.value,
                             category = categoryState.value
                         )
-                        groupsViewModel.addGroup(newGroup = newGroup)
+                        groupsViewModel.addGroup(group = newGroup)
                         onAddGroupClick()
                     } else {
                         Toast.makeText(context, "Enter name", Toast.LENGTH_LONG).show()
@@ -154,14 +151,14 @@ fun AddGroupScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun AddGroupScreenPreview() {
-    val groupsViewModel = GroupsViewModel()
-
-    AddGroupScreen(
-        onCancelClick = { /* Do nothing for preview */ },
-        groupsViewModel = groupsViewModel,
-        onAddGroupClick = { /* Do nothing for preview */ }
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun AddGroupScreenPreview() {
+//    val groupsViewModel = GroupsViewModel()
+//
+//    AddGroupScreen(
+//        onCancelClick = { /* Do nothing for preview */ },
+//        groupsViewModel = groupsViewModel,
+//        onAddGroupClick = { /* Do nothing for preview */ }
+//    )
+//}

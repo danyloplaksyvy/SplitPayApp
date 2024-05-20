@@ -29,7 +29,7 @@ fun MainNavigationGraph(
 ) {
 
     val friendsViewModel = hiltViewModel<FriendsViewModel>()
-    val groupsViewModel = viewModel<GroupsViewModel>()
+    val groupsViewModel = hiltViewModel<GroupsViewModel>()
 
 //    val context = LocalContext.current
     val scope = rememberCoroutineScope()
