@@ -7,55 +7,49 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
+import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsrepository.FriendsRepository
 import com.google.firebase.auth.auth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 
-class FriendsViewModel (
+@HiltViewModel
+class FriendsViewModel @Inject constructor(
+    private val repository: FriendsRepository
 ) : ViewModel() {
-    private val _friends = mutableStateListOf<Friend>()
-    val friends: List<Friend> get() = _friends.toList()
+    private val _friends = MutableStateFlow<List<Friend>>(emptyList())
+    val friends: StateFlow<List<Friend>> = _friends
 
-    private var friendId = 1
-//    private val fs = Firebase.firestore
-
-//    suspend
-    fun addFriend(friend: Friend) {
-        _friends.add(friend.copy(id = friendId++))
-//        val userId = com.google.firebase.Firebase.auth.currentUser?.uid ?: return
-//
-//        com.google.firebase.Firebase.firestore
-//            .collection("users")
-//            .document(userId)
-//            .collection("friends")
-//            .add(friend)
-//            .await()
-    }
-
-    suspend fun getFriends(friend: Friend) {
-
-    }
-
-    fun updateFriendName(friend: Friend, newName: String) {
-        val index = _friends.indexOfFirst { it.id == friend.id }
-        if (index != -1) {
-            _friends[index] = friend.copy(name = newName)
+    init {
+        viewModelScope.launch {
+            repository.getFriends(Firebase.auth.currentUser?.uid!!).collect {
+                _friends.value = it
+            }
         }
     }
 
-    fun removeFriend(friend: Friend) {
+    fun addFriend(friend: Friend) = viewModelScope.launch {
+        repository.addFriend(friend)
+    }
+
+    fun removeFriend(friend: Friend) = viewModelScope.launch {
         friend.isDeleting = true
         viewModelScope.launch {
             delay(500) // Delay to match the animation duration
-            _friends.remove(friend)
+            repository.removeFriend(Firebase.auth.currentUser?.uid!!, friend)
         }
     }
+
+    fun updateFriend(friend: Friend) = viewModelScope.launch {
+        repository.updateFriend(Firebase.auth.currentUser?.uid!!, friend)
+    }
+
 }

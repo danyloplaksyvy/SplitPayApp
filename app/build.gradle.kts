@@ -71,7 +71,7 @@ dependencies {
     implementation (libs.firebase.auth.ktx)
 
     // ViewModel
-//    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
 
     // Download Images
     implementation ("io.coil-kt:coil-compose:2.2.2")
@@ -85,6 +85,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // Fonts
     implementation(libs.androidx.ui.text.google.fonts)

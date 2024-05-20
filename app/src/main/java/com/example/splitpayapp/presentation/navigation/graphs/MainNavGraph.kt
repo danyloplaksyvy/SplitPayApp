@@ -2,6 +2,7 @@ package com.example.splitpayapp.presentation.navigation.graphs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -13,6 +14,7 @@ import com.example.splitpayapp.presentation.view.main.friendsscreen.FriendsScree
 import com.example.splitpayapp.presentation.view.main.groupsscreen.GroupsScreen
 import com.example.splitpayapp.presentation.view.main.ProfileScreen
 import com.example.splitpayapp.presentation.view.main.RecentActivityScreen
+import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsrepository.FriendsRepository
 import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 import kotlinx.coroutines.CancellationException
@@ -26,7 +28,7 @@ fun MainNavigationGraph(
     navController: NavHostController,
 ) {
 
-    val friendsViewModel = viewModel<FriendsViewModel>()
+    val friendsViewModel = hiltViewModel<FriendsViewModel>()
     val groupsViewModel = viewModel<GroupsViewModel>()
 
 //    val context = LocalContext.current
@@ -40,7 +42,8 @@ fun MainNavigationGraph(
             FriendsScreen(
                 onAddFriendButtonClick = {
                     navController.navigate(Graph.ADD_FRIEND)
-                }, friendsViewModel = friendsViewModel
+                },
+                friendsViewModel = friendsViewModel
             )
         }
         composable(route = NavItem.Groups.route) {

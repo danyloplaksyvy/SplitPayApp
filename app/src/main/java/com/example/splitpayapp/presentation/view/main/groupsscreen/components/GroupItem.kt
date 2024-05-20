@@ -64,11 +64,6 @@ fun GroupItem(group: Group, onUpdateGroup: () -> Unit, onDeleteGroup: (Group) ->
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = group.id.toString(),
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(8.dp)
-                    )
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current).data(group.image)
                             .crossfade(true).build(),
