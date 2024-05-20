@@ -1,5 +1,6 @@
 package com.example.splitpayapp.presentation.view.main.friendsscreen.components
 
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -9,6 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
@@ -22,7 +25,11 @@ fun EditFriendDialog(friend: Friend, onDismiss: () -> Unit, onConfirmEdit: (Frie
             OutlinedTextField(
                 value = newName,
                 onValueChange = { newName = it },
-                label = { Text("New Name") }
+                label = { Text("New Name") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Done
+                )
             )
         },
         confirmButton = {
