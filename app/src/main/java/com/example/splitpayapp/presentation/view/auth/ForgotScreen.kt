@@ -24,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,14 +39,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.splitpayapp.R
+import com.example.splitpayapp.presentation.view.auth.authviewmodel.AuthViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForgotScreen(navController: NavController) {
+fun ForgotScreen(
+    navController: NavController,
+    authViewModel: AuthViewModel = viewModel()
+) {
     val context = LocalContext.current // For Toasts
     var emailFieldState by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
@@ -111,26 +117,7 @@ fun ForgotScreen(navController: NavController) {
                             return@Button
                         }
                         isLoading = true
-
-                        Firebase.auth.sendPasswordResetEmail(emailFieldState)
-                            .addOnCompleteListener { task ->
-                                isLoading = false
-                                if (task.isSuccessful) {
-                                    Toast.makeText(
-                                        context,
-                                        "Check your email!",
-                                        Toast.LENGTH_LONG
-                                    )
-                                        .show()
-                                    navController.popBackStack()
-                                } else {
-                                    Toast.makeText(
-                                        context,
-                                        task.exception?.message ?: "An error occurred",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
+                        authViewModel.sendPasswordResetEmail(email)
                     }) {
                     Text("Submit")
                 }
@@ -143,6 +130,21 @@ fun ForgotScreen(navController: NavController) {
 //                Text(text = "Back")
 
                 }
+            }
+        }
+    }
+    LaunchedEffect(authViewModel.passwordResetResult) {
+        authViewModel.passwordResetResult.collect { isSuccess ->
+            isLoading = false // Stop loading indicator
+            if (isSuccess) {
+                Toast.makeText(context, "Check your email!", Toast.LENGTH_LONG).show()
+                navController.popBackStack()
+            } else {
+                Toast.makeText(
+                    context,
+                    "Password reset failed. Please check your email and try again.",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

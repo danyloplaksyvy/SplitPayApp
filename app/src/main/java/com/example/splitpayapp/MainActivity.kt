@@ -1,7 +1,6 @@
 package com.example.splitpayapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -12,18 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.splitpayapp.presentation.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.navigation.graphs.RootNavigationGraph
-import com.example.splitpayapp.presentation.viewmodel.MainViewModel
+import com.example.splitpayapp.presentation.data.datastore.viewmodel.DataStoreViewModel
 import com.example.splitpayapp.ui.theme.MyTheme
 import com.google.android.gms.auth.api.identity.Identity
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val mainViewModel by viewModels<MainViewModel>()
+    private val mainViewModel by viewModels<DataStoreViewModel>()
 
     private val googleAuthUiClient by lazy {
         GoogleAuthUiClient(

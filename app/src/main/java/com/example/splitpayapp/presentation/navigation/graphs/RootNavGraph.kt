@@ -8,13 +8,13 @@ import com.example.splitpayapp.presentation.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.navigation.Screens
 import com.example.splitpayapp.presentation.navigation.bottomnavigationbar.BottomNavigationBarScreen
 import com.example.splitpayapp.presentation.view.onboardingscreen.OnBoardingScreen
-import com.example.splitpayapp.presentation.viewmodel.MainViewModel
+import com.example.splitpayapp.presentation.data.datastore.viewmodel.DataStoreViewModel
 
 @Composable
 fun RootNavigationGraph(
     googleAuthUiClient: GoogleAuthUiClient,
     startDestination: String,
-    mainViewModel: MainViewModel
+    mainViewModel: DataStoreViewModel
 ) {
     val rootNavController = rememberNavController()
 

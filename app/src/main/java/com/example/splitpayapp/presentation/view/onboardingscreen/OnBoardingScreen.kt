@@ -15,19 +15,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.splitpayapp.presentation.navigation.Screens
-import com.example.splitpayapp.presentation.navigation.graphs.Graph
 import com.example.splitpayapp.presentation.view.onboardingscreen.components.NextBackButton
 import com.example.splitpayapp.presentation.view.onboardingscreen.components.OnBoardingPage
 import com.example.splitpayapp.presentation.view.onboardingscreen.components.PageIndicator
 import com.example.splitpayapp.presentation.view.onboardingscreen.components.pages
-import com.example.splitpayapp.presentation.viewmodel.MainViewModel
+import com.example.splitpayapp.presentation.data.datastore.viewmodel.DataStoreViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(mainViewModel: MainViewModel) {
+fun OnBoardingScreen(mainViewModel: DataStoreViewModel) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {

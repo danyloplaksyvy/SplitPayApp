@@ -1,13 +1,11 @@
 package com.example.splitpayapp.presentation.view.auth
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
@@ -21,15 +19,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,16 +34,18 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.splitpayapp.R
 import com.example.splitpayapp.presentation.navigation.Screens
 import com.example.splitpayapp.presentation.navigation.graphs.Graph
+import com.example.splitpayapp.presentation.view.auth.authviewmodel.AuthViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 @Composable
 fun RegisterScreen(
     navController: NavController,
+    authViewModel: AuthViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val nameFieldState = remember { mutableStateOf("") }
@@ -55,6 +54,21 @@ fun RegisterScreen(
     val confirmPasswordFieldState = remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) } // For loading state
     var passwordVisibility by remember { mutableStateOf(false) }
+
+    // Collect the registration result from the ViewModel using LaunchedEffect
+    LaunchedEffect(key1 = authViewModel.registerResult) {
+        authViewModel.registerResult.collect { isSuccess ->
+            isLoading = false
+            if (isSuccess) {
+                navController.navigate(Graph.MAIN_NAV) {
+                    popUpTo(Screens.RegisterScreen.name) { inclusive = true }
+                }
+            } else {
+                val errorMessage = "Sign-up failed." // Customize error message based on the exception from the ViewModel
+                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -86,8 +100,7 @@ fun RegisterScreen(
                 trailingIcon = {
                     Icon(
                         Icons.Outlined.Person,
-                        contentDescription = null,
-//                        tint = Color(63, 99, 203, 200)
+                        contentDescription = null
                     )
                 },
                 modifier = Modifier
@@ -106,8 +119,7 @@ fun RegisterScreen(
                 trailingIcon = {
                     Icon(
                         Icons.Outlined.Email,
-                        contentDescription = null,
-//                        tint = Color(63, 99, 203, 200)
+                        contentDescription = null
                     )
                 },
                 modifier = Modifier
@@ -127,8 +139,7 @@ fun RegisterScreen(
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
                             imageVector = if (passwordVisibility) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                            contentDescription = null,
-//                            tint = Color(63, 99, 203, 200)
+                            contentDescription = null
                         )
                     }
                 },
@@ -148,8 +159,7 @@ fun RegisterScreen(
                     IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                         Icon(
                             imageVector = if (passwordVisibility) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                            contentDescription = null,
-//                            tint = Color(63, 99, 203, 200)
+                            contentDescription = null
                         )
                     }
                 },
@@ -178,21 +188,7 @@ fun RegisterScreen(
                     }
                     isLoading = true // Show loading State
                     // Adding User to Auth
-                    Firebase.auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            isLoading = false
-                            if (task.isSuccessful) {
-                                //Sign-up success (navigate to the main app area)
-                                navController.navigate(Graph.MAIN_NAV) {
-                                    popUpTo(Screens.RegisterScreen.name) {
-                                        inclusive = true
-                                    } // Clear auth from backstack
-                                }
-                            } else {
-                                val errorMessage = task.exception?.message ?: "Sign-up failed"
-                                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-                            }
-                        }
+                    authViewModel.registerUser(email, password)
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -1,8 +1,12 @@
 package com.example.splitpayapp.presentation.view.auth
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -41,19 +45,24 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.splitpayapp.R
 import com.example.splitpayapp.presentation.navigation.Screens
 import com.example.splitpayapp.presentation.googlesignin.GoogleAuthUiClient
 import com.example.splitpayapp.presentation.navigation.graphs.Graph
+import com.example.splitpayapp.presentation.view.auth.authviewmodel.AuthViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    googleAuthUiClient: GoogleAuthUiClient
+    googleAuthUiClient: GoogleAuthUiClient,
+    authViewModel: AuthViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val emailFieldState = remember { mutableStateOf("") }
@@ -93,13 +102,6 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.signin),
-//            contentDescription = null,
-//            modifier = Modifier
-//                .padding(8.dp)
-//                .size(256.dp)
-//        )
         Text(
             text = "Sign In",
             fontSize = 24.sp,
@@ -147,21 +149,20 @@ fun LoginScreen(
                         Icon(
                             imageVector = if (passwordVisibility) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
                             contentDescription = null,
-//                            tint = Color(63, 99, 203, 200)
                         )
                     }
                 },
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
             )
-                TextButton(
-                    onClick = {
-                        /*Switch*/
-                        navController.navigate(Screens.ForgotScreen.name)
-                    }
-                ) {
-                    Text("Forgot Password?")
+            TextButton(
+                onClick = {
+                    /*Switch*/
+                    navController.navigate(Screens.ForgotScreen.name)
                 }
+            ) {
+                Text("Forgot Password?")
+            }
 
             // Sign In button
             Button(
@@ -179,21 +180,7 @@ fun LoginScreen(
                     }
 
                     isLoading = true // Show loading State
-
-                    Firebase.auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            isLoading = false
-                            if (task.isSuccessful) {
-                                navController.navigate(Graph.MAIN_NAV) {
-                                    popUpTo(Screens.LoginScreen.name) {
-                                        inclusive = true
-                                    } // Clear auth from backstack
-                                }
-                            } else {
-                                val errorMessage = task.exception?.message ?: "Sign-in failed"
-                                Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-                            }
-                        }
+                    authViewModel.loginUser(email, password) // Call ViewModel function
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -230,5 +217,18 @@ fun LoginScreen(
         }
 
 
+    }
+
+    LaunchedEffect(authViewModel.loginResult) {
+        authViewModel.loginResult.collect { isSuccess ->
+            isLoading = false
+            if (isSuccess) {
+                navController.navigate(Graph.MAIN_NAV) {
+                    popUpTo(Screens.LoginScreen.name) { inclusive = true }
+                }
+            } else {
+                Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
