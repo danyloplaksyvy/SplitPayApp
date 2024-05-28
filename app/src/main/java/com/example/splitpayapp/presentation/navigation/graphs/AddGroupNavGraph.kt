@@ -12,7 +12,8 @@ import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmod
 
 fun NavGraphBuilder.addGroupNavGraph(
     navController: NavHostController,
-    groupsViewModel: GroupsViewModel
+    groupsViewModel: GroupsViewModel,
+    friendsViewModel: FriendsViewModel
 ) {
 
     navigation(route = Graph.ADD_GROUP, startDestination = AddGroup.ADD_GROUP_SCREEN.route) {
@@ -24,7 +25,8 @@ fun NavGraphBuilder.addGroupNavGraph(
                 onAddGroupClick = {
                     navController.navigate(Screens.GroupsScreen.name)
                 },
-                groupsViewModel = groupsViewModel
+                groupsViewModel = groupsViewModel,
+                friendsViewModel = friendsViewModel
             )
         }
     }

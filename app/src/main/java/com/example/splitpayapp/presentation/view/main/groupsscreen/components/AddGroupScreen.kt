@@ -1,5 +1,6 @@
 package com.example.splitpayapp.presentation.view.main.groupsscreen.components
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,14 +21,20 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +43,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
+import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,25 +52,34 @@ import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmod
 fun AddGroupScreen(
     onCancelClick: () -> Unit,
     groupsViewModel: GroupsViewModel,
-    onAddGroupClick: () -> Unit
+    onAddGroupClick: () -> Unit,
+    friendsViewModel: FriendsViewModel
 ) {
 
     val nameFieldState = remember { mutableStateOf("") }
     val categoryState = remember { mutableStateOf("Any") }
+    var selectedFriendsForGroup = remember { mutableStateOf<List<Friend>>(emptyList()) }
+
+    var showDialog by remember { mutableStateOf(false) } // State for the Alert Dialog
+    var currentGroup by remember { mutableStateOf<Group?>(null) }
+    val friends by friendsViewModel.friends.collectAsState()
+
 
     val context = LocalContext.current
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text(text = "Add Group") }, actions = {
             TextButton(
-                onClick = {
+                onClick =  {
                     if (nameFieldState.value.isNotBlank()) {
                         val newGroup = Group(
                             name = nameFieldState.value,
-                            category = categoryState.value
+                            category = categoryState.value,
+                            members = selectedFriendsForGroup.value
                         )
                         groupsViewModel.addGroup(group = newGroup)
                         onAddGroupClick()
+                        currentGroup = newGroup
                     } else {
                         Toast.makeText(context, "Enter name", Toast.LENGTH_LONG).show()
                     }
@@ -123,7 +141,7 @@ fun AddGroupScreen(
                     .fillMaxWidth()
                     .padding(16.dp)
                     .clip(RoundedCornerShape(15.dp))
-                    .clickable { }
+                    .clickable { showDialog = true }
             ) {
                 Row(
                     modifier = Modifier
@@ -149,16 +167,14 @@ fun AddGroupScreen(
         }
 
     }
+    // Alert Dialog
+    if (showDialog) {
+        AddMemberGroupDialog(
+            friends = friends,
+            onDismiss = { showDialog = false },
+            onConfirm = { selectedFriends ->
+                selectedFriendsForGroup.value = selectedFriends
+                showDialog = false
+            })
+    }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun AddGroupScreenPreview() {
-//    val groupsViewModel = GroupsViewModel()
-//
-//    AddGroupScreen(
-//        onCancelClick = { /* Do nothing for preview */ },
-//        groupsViewModel = groupsViewModel,
-//        onAddGroupClick = { /* Do nothing for preview */ }
-//    )
-//}

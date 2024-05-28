@@ -2,6 +2,7 @@ package com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.groupsscreen.components.Group
 import com.example.splitpayapp.presentation.view.main.groupsscreen.grouprepository.GroupRepository
 import com.google.firebase.auth.ktx.auth
@@ -30,6 +31,10 @@ class GroupsViewModel @Inject constructor(
 
     fun addGroup(group: Group) = viewModelScope.launch {
         repository.addGroup(group)
+    }
+
+    fun addMembersToGroup(groupId: String, newMembers: List<Friend>) = viewModelScope.launch {
+        repository.addMembersToGroup(groupId, newMembers.map { it.id })
     }
 
     fun removeGroup(group: Group) = viewModelScope.launch {

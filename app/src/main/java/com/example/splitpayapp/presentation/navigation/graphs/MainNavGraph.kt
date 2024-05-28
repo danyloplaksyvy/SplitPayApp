@@ -71,6 +71,6 @@ fun MainNavigationGraph(
             })
         }
         addFriendNavGraph(navController, friendsViewModel)
-        addGroupNavGraph(navController, groupsViewModel)
+        addGroupNavGraph(navController, groupsViewModel, friendsViewModel)
     }
 }

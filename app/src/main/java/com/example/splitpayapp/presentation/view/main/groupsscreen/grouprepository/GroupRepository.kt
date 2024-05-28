@@ -4,6 +4,7 @@ import com.example.splitpayapp.presentation.view.main.friendsscreen.components.F
 import com.example.splitpayapp.presentation.view.main.groupsscreen.components.Group
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.channels.awaitClose
@@ -36,7 +37,7 @@ class GroupRepository @Inject constructor() {
     }
 
     suspend fun removeGroup(userId: String, group: Group) {
-        Firebase.firestore.collection(USERS)
+        db.collection(USERS)
             .document(userId)
             .collection(GROUPS)
             .document(group.id)
@@ -45,11 +46,22 @@ class GroupRepository @Inject constructor() {
     }
 
     suspend fun updateGroup(userId: String, group: Group) {
-        Firebase.firestore.collection(USERS)
+        db.collection(USERS)
             .document(userId)
             .collection(GROUPS)
             .document(group.id)
             .set(group, SetOptions.merge())
+            .await()
+    }
+
+    suspend fun addMembersToGroup(groupId: String, memberIds: List<String>) {
+        val groupRef = db.collection(USERS)
+            .document(Firebase.auth.currentUser?.uid ?: return) // Get the current user ID
+            .collection(GROUPS)
+            .document(groupId)
+
+        // Update the members array to include the new member IDs
+        groupRef.update("members", FieldValue.arrayUnion(*memberIds.toTypedArray()))
             .await()
     }
 
