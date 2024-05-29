@@ -3,18 +3,17 @@ package com.example.splitpayapp.presentation.navigation.graphs
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.splitpayapp.presentation.navigation.bottomnavigationbar.NavItem
 import com.example.splitpayapp.presentation.googlesignin.GoogleAuthUiClient
-import com.example.splitpayapp.presentation.view.main.AddExpenseScreen
+import com.example.splitpayapp.presentation.navigation.Screens
+import com.example.splitpayapp.presentation.view.main.addexpensescreen.AddExpenseScreen
 import com.example.splitpayapp.presentation.view.main.friendsscreen.FriendsScreen
 import com.example.splitpayapp.presentation.view.main.groupsscreen.GroupsScreen
 import com.example.splitpayapp.presentation.view.main.ProfileScreen
 import com.example.splitpayapp.presentation.view.main.RecentActivityScreen
-import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsrepository.FriendsRepository
 import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
 import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 import kotlinx.coroutines.CancellationException
@@ -52,7 +51,9 @@ fun MainNavigationGraph(
             }, groupsViewModel = groupsViewModel)
         }
         composable(route = NavItem.AddExpense.route) {
-            AddExpenseScreen()
+            AddExpenseScreen(friendsViewModel, onCreateExpense = {
+                navController.navigate(Screens.FriendsScreen.name)
+            })
         }
         composable(route = NavItem.Recent.route) {
             RecentActivityScreen()

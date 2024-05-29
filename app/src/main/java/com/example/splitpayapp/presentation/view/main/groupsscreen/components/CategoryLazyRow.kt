@@ -90,12 +90,12 @@ fun CategoryLazyRow(categoryName: MutableState<String>) {
 
                         )
                     ) {
-                        Text(text = "${item.name} ", color = MaterialTheme.colorScheme.onPrimary)
                         Icon(
                             item.icon,
                             contentDescription = item.name,
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
+                        Text(text = "${item.name} ", color = MaterialTheme.colorScheme.onPrimary)
                     }
                 }
             }
