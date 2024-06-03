@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -56,15 +57,32 @@ fun ArticleItem(articlesDataItem: ArticlesDataItem) {
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(articlesDataItem.categoryIcon, contentDescription = "Activity Category", modifier = Modifier.padding(end = 8.dp))
+                    Icon(
+                        articlesDataItem.categoryIcon,
+                        contentDescription = "Activity Category",
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
                     Column {
-                        Text(text = articlesDataItem.title, style = MaterialTheme.typography.bodyMedium)
-                        Text(text = articlesDataItem.action, style = MaterialTheme.typography.labelSmall)
+                        Text(
+                            text = articlesDataItem.title,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = articlesDataItem.action,
+                            style = MaterialTheme.typography.labelSmall
+                        )
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
+                        Text(
+                            text = "${articlesDataItem.dateStart}\n${articlesDataItem.dateEnd}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = .5f)
+                        )
+//
 //                        IconButton(onClick = {
 //                        }) {
 //                            Icon(

@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.splitpayapp.presentation.navigation.Screens
 import com.example.splitpayapp.presentation.view.main.articlesscreen.articleviewmodel.ArticleViewModel
 import com.example.splitpayapp.presentation.view.main.articlesscreen.components.AddArticleScreen
 
@@ -16,10 +17,10 @@ fun NavGraphBuilder.addArticleNavGraph(
         composable(route = AddArticle.ADD_ARTICLE_SCREEN.route) {
             AddArticleScreen(
                 onCancelClick = {
-                    navController.navigate(Graph.MAIN_NAV)
+                    navController.navigate(Screens.ArticlesScreen.name)
                 },
                 onAddArticleClick = {
-                    navController.navigate(Graph.MAIN_NAV)
+                    navController.navigate(Screens.ArticlesScreen.name)
                 },
                 articleViewModel = articleViewModel
             )

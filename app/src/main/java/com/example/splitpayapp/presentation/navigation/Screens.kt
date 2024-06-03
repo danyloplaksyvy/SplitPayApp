@@ -4,10 +4,11 @@ enum class Screens {
     FriendsScreen,
     GroupsScreen,
     RecentActivityScreen,
-    ProfileScreen,
+    ArticlesScreen,
     AddExpenseScreen,
     LoginScreen,
     RegisterScreen,
     ForgotScreen,
     OnBoardingScreen,
+    AddArticlesScreen
 }

@@ -2,11 +2,9 @@ package com.example.splitpayapp.presentation.navigation.bottomnavigationbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Article
-import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Groups
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.sharp.Add
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -48,7 +46,7 @@ sealed class NavItem(
     object Profile : NavItem(
         text = "Articles",
         icon = Icons.AutoMirrored.Outlined.Article,
-        route = Screens.ProfileScreen.name,
+        route = Screens.ArticlesScreen.name,
     )
 
 }
