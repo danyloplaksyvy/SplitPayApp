@@ -1,10 +1,13 @@
 package com.example.splitpayapp.presentation.view.main.addexpensescreen.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DriveFileRenameOutline
@@ -32,9 +35,10 @@ fun ExpenseDetails(onClickFriends: (Boolean) -> Unit, onClickGroups: (Boolean) -
     val categoryState = remember { mutableStateOf("Any") }
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .wrapContentSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
         // Description
         OutlinedTextField(
@@ -74,6 +78,8 @@ fun ExpenseDetails(onClickFriends: (Boolean) -> Unit, onClickGroups: (Boolean) -
         )
         Spacer(modifier = Modifier.padding(8.dp))
         CategoryLazyRow(categoryName = categoryState)
-        AddMembersButton(onClickFriends = { onClickFriends(true) }, onClickGroups = { onClickGroups(true)})
+        AddMembersButton(
+            onClickFriends = { onClickFriends(true) },
+            onClickGroups = { onClickGroups(true) })
     }
 }

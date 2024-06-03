@@ -1,6 +1,7 @@
 package com.example.splitpayapp.presentation.view.main.friendsscreen.components
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,8 +35,11 @@ import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewm
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddFriendScreen(onCancelClick: () -> Unit, friendsViewModel: FriendsViewModel, onAddFriendClick: () -> Unit) {
-
+fun AddFriendScreen(
+    onCancelClick: () -> Unit,
+    friendsViewModel: FriendsViewModel,
+    onAddFriendClick: () -> Unit
+) {
 
 
     val nameFieldState = remember { mutableStateOf("") }
@@ -70,12 +75,14 @@ fun AddFriendScreen(onCancelClick: () -> Unit, friendsViewModel: FriendsViewMode
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.size(16.dp))
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp), verticalAlignment = Alignment.CenterVertically
+                    .fillMaxSize()
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Icon(Icons.Default.PersonAdd, contentDescription = "Photo")
+//                Icon(Icons.Default.PersonAdd, contentDescription = "Photo")
                 // Name
                 OutlinedTextField(
                     value = nameFieldState.value,
@@ -88,6 +95,24 @@ fun AddFriendScreen(onCancelClick: () -> Unit, friendsViewModel: FriendsViewMode
                     trailingIcon = {
                         Icon(
                             Icons.Outlined.Person,
+                            contentDescription = null,
+                        )
+                    },
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { },
+                    label = { Text("Email") },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    trailingIcon = {
+                        Icon(
+                            Icons.Outlined.Email,
                             contentDescription = null,
                         )
                     },

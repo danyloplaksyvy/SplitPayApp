@@ -17,7 +17,7 @@ fun MyTheme(content: @Composable () -> Unit) {
         onPrimary = Color(242, 244, 252),
         secondary = Color(180, 153, 228),
         onSecondary = Color(242, 244, 252),
-        tertiary = Color(151, 95, 212),
+        tertiary = Color(142, 61, 231, 255),
         onTertiary = Color(242, 244, 252),
 //        surface = Color(63, 99, 203, 255),
 //        onSurface = Color(5, 9, 21),

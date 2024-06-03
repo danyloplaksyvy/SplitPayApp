@@ -43,4 +43,5 @@ object Graph {
     const val MAIN_NAV = "main_nav_graph"
     const val ADD_FRIEND = "add_friend_nav_graph"
     const val ADD_GROUP = "add_group_nav_graph"
+    const val ADD_ARTICLE = "add_article_nav_graph"
 }

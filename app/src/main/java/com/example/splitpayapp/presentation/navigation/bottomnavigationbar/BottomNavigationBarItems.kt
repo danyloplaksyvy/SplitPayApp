@@ -1,6 +1,8 @@
 package com.example.splitpayapp.presentation.navigation.bottomnavigationbar
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Article
+import androidx.compose.material.icons.outlined.Article
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Groups
@@ -18,43 +20,35 @@ sealed class NavItem(
     val route: String,
     val color: Color = Color(110, 103, 117, 255),
     val size: Dp = 24.dp,
-//    val borderSize: Dp = 0.dp
 ) {
     object Friends : NavItem(
         text = "Friends",
         icon = Icons.Outlined.Group,
         route = Screens.FriendsScreen.name,
-//        color = Color(110, 103, 117, 255),
     )
 
     object Groups : NavItem(
         text = "Groups",
         icon = Icons.Outlined.Groups,
         route = Screens.GroupsScreen.name,
-//        color = Color(110, 103, 117, 255)
     )
 
     object AddExpense : NavItem(
         text = "Expense",
         icon = Icons.Sharp.Add,
         route = Screens.AddExpenseScreen.name,
-//        color = Color(63, 99, 203),
-//        borderSize = 2.dp
-//        size = 32.dp
     )
 
     object Recent : NavItem(
         text = "Recent",
         icon = Icons.Outlined.Email,
         route = Screens.RecentActivityScreen.name,
-//        color = Color(110, 103, 117, 255)
     )
 
     object Profile : NavItem(
-        text = "Profile",
-        icon = Icons.Outlined.Settings,
+        text = "Articles",
+        icon = Icons.AutoMirrored.Outlined.Article,
         route = Screens.ProfileScreen.name,
-//        color = Color(110, 103, 117, 255)
     )
 
 }

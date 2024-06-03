@@ -1,7 +1,6 @@
-package com.example.splitpayapp.presentation.view.main.groupsscreen.components
+package com.example.splitpayapp.presentation.view.main.addexpensescreen.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,7 +13,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,22 +22,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
-import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.Group
 
 @Composable
-fun AddMemberGroupDialog(
-    friends: List<Friend>,
+fun AddGroupMemberDialog(
+    groups: List<Group>,
     onDismiss: () -> Unit,
-    onConfirm: (List<Friend>) -> Unit
+    onConfirm: (List<Group>) -> Unit
 ) {
-    var selectedFriends by remember { mutableStateOf<List<Friend>>(emptyList()) }
+    var selectedGroups by remember { mutableStateOf<List<Group>>(emptyList()) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Select Friends") },
+        title = { Text("Select Groups") },
         text = {
             LazyColumn {
-                items(friends) { friend ->
+                items(groups) { group ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -47,26 +45,26 @@ fun AddMemberGroupDialog(
                             .padding(8.dp)
                             .clip(RoundedCornerShape(10.dp))
                             .clickable {
-                                // Toggle friend selection
-                                selectedFriends = if (friend in selectedFriends) {
-                                    selectedFriends - friend
+                                // Toggle group selection
+                                selectedGroups = if (group in selectedGroups) {
+                                    selectedGroups - group
                                 } else {
-                                    selectedFriends + friend
+                                    selectedGroups + group
                                 }
                             }
                     ) {
                         Checkbox(
-                            checked = friend in selectedFriends,
+                            checked = group in selectedGroups,
                             onCheckedChange = null // Controlled by clickable modifier
                         )
-                        Text(text = " ${friend.name}", style = MaterialTheme.typography.bodyLarge)
+                        Text(text = " ${group.name}", style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }
         },
         confirmButton = {
             Button(onClick = {
-                onConfirm(selectedFriends)
+                onConfirm(selectedGroups)
             }) {
                 Text("Add")
             }

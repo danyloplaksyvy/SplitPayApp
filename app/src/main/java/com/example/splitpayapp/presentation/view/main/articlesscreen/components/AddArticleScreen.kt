@@ -1,4 +1,4 @@
-package com.example.splitpayapp.presentation.view.main.groupsscreen.components
+package com.example.splitpayapp.presentation.view.main.articlesscreen.components
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -30,17 +30,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.splitpayapp.presentation.view.main.articlesscreen.articleviewmodel.ArticleViewModel
 import com.example.splitpayapp.presentation.view.main.friendsscreen.components.Friend
 import com.example.splitpayapp.presentation.view.main.friendsscreen.friendsviewmodel.FriendsViewModel
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.AddFriendMemberDialog
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.AddMembersFromFriendsButton
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.CategoryLazyRow
+import com.example.splitpayapp.presentation.view.main.groupsscreen.components.Group
 import com.example.splitpayapp.presentation.view.main.groupsscreen.groupsviewmodel.GroupsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddGroupScreen(
+fun AddArticleScreen(
     onCancelClick: () -> Unit,
-    groupsViewModel: GroupsViewModel,
-    onAddGroupClick: () -> Unit,
-    friendsViewModel: FriendsViewModel
+    onAddArticleClick: () -> Unit,
+    articleViewModel: ArticleViewModel
 ) {
 
     val nameFieldState = remember { mutableStateOf("") }
@@ -49,24 +53,18 @@ fun AddGroupScreen(
 
     var showDialog by remember { mutableStateOf(false) } // State for the Alert Dialog
     var currentGroup by remember { mutableStateOf<Group?>(null) }
-    val friends by friendsViewModel.friends.collectAsState()
+    val articles by articleViewModel.articles.collectAsState()
 
 
     val context = LocalContext.current
 
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(title = { Text(text = "Add Group") }, actions = {
+        CenterAlignedTopAppBar(title = { Text(text = "Add Article") }, actions = {
             TextButton(
                 onClick = {
                     if (nameFieldState.value.isNotBlank()) {
-                        val newGroup = Group(
-                            name = nameFieldState.value,
-                            category = categoryState.value,
-                            members = selectedFriendsForGroup.value
-                        )
-                        groupsViewModel.addGroup(group = newGroup)
-                        onAddGroupClick()
-                        currentGroup = newGroup
+
+                        onAddArticleClick()
                     } else {
                         Toast.makeText(context, "Enter name", Toast.LENGTH_LONG).show()
                     }
@@ -91,46 +89,8 @@ fun AddGroupScreen(
                     .fillMaxWidth()
                     .padding(16.dp), verticalAlignment = Alignment.CenterVertically
             ) {
-                // Name
-                OutlinedTextField(
-                    value = nameFieldState.value,
-                    onValueChange = { nameFieldState.value = it },
-                    label = { Text("Group Name") },
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
-                    trailingIcon = {
-                        Icon(
-                            Icons.Outlined.Groups,
-                            contentDescription = null,
-                        )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                )
-            }
-            // Category
-            Spacer(modifier = Modifier.padding(16.dp))
-            Column(Modifier.padding(horizontal = 16.dp)) {
-                CategoryLazyRow(categoryName = categoryState)
-                // function for add members composable
-                AddMembersFromFriendsButton(onClick = { showDialogForMembers ->
-                    showDialog = showDialogForMembers
-                })
+
             }
         }
-
-    }
-    // Alert Dialog
-    if (showDialog) {
-        AddFriendMemberDialog(
-            friends = friends,
-            onDismiss = { showDialog = false },
-            onConfirm = { selectedFriends ->
-                selectedFriendsForGroup.value = selectedFriends
-                showDialog = false
-            })
     }
 }

@@ -1,4 +1,4 @@
-package com.example.splitpayapp.presentation.view.main
+package com.example.splitpayapp.presentation.view.main.recentactivityscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,11 +23,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.splitpayapp.presentation.view.main.components.ScrollToTopButton
+import com.example.splitpayapp.presentation.view.main.recentactivityscreen.components.RecentActivityDataItem
+import com.example.splitpayapp.presentation.view.main.recentactivityscreen.components.RecentActivityItem
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecentActivityScreen() {
+    val recentActivityItem = listOf(
+        RecentActivityDataItem.first,
+        RecentActivityDataItem.second
+    )
+
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
     Scaffold(topBar = {
@@ -42,13 +49,12 @@ fun RecentActivityScreen() {
                 .fillMaxSize()
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
             Box {
-                val items = (1..25).toList()
                 LazyColumn(state = state) {
-                    itemsIndexed(items) { index, item ->
-                        Text("Item at index $index: $item", Modifier.padding(16.dp))
+                    itemsIndexed(recentActivityItem) { index, item ->
+                        RecentActivityItem(recentActivityDataItem = item)
                     }
                 }
 
